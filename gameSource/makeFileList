@@ -1,0 +1,174 @@
+
+# Can change flags here
+# See minorGems/game/platforms/SDL/Makefile.common for flags
+DEBUG_FLAG = ${DEBUG_ON_FLAG}
+
+PROFILE_FLAG = ${PROFILE_OFF_FLAG}
+
+LINK_AGAINST_LIBJPEG = no
+LINK_AGAINST_LIBPNG = no
+
+APP_NAME = OneLife
+ROOT_PATH = ../..
+
+
+
+LAYER_SOURCE = \
+game.cpp \
+spriteBank.cpp \
+objectBank.cpp \
+transitionBank.cpp \
+animationBank.cpp \
+whiteSprites.cpp \
+message.cpp \
+serialWebRequests.cpp \
+accountHmac.cpp \
+PageComponent.cpp \
+GamePage.cpp \
+LivingLifePage.cpp \
+pathFind.cpp \
+ageControl.cpp \
+ExtendedMessagePage.cpp \
+buttonStyle.cpp \
+Button.cpp \
+TextButton.cpp \
+RebirthChoicePage.cpp \
+TextField.cpp \
+LoadingPage.cpp \
+folderCache.cpp \
+binFolderCache.cpp \
+liveObjectSet.cpp \
+../commonSource/fractalNoise.cpp \
+ExistingAccountPage.cpp \
+KeyEquivalentTextButton.cpp \
+ServerActionPage.cpp \
+FinalMessagePage.cpp \
+AutoUpdatePage.cpp \
+soundBank.cpp \
+convolution.cpp \
+fft.cpp \
+ogg.cpp \
+musicPlayer2.cpp \
+groundSprites.cpp \
+SettingsPage.cpp \
+CheckboxButton.cpp \
+ValueSlider.cpp \
+SpriteButton.cpp \
+SpriteToggleButton.cpp \
+categoryBank.cpp \
+liveAnimationTriggers.cpp \
+ReviewPage.cpp \
+TextArea.cpp \
+RadioButtonSet.cpp \
+spellCheck.cpp \
+SoundUsage.cpp \
+TwinPage.cpp \
+objectMetadata.cpp \
+emotion.cpp \
+Picker.cpp \
+PickableStatics.cpp \
+photos.cpp \
+lifeTokens.cpp \
+PollPage.cpp \
+fitnessScore.cpp \
+GeneticHistoryPage.cpp \
+
+
+
+GAME_GRAPHICS = \
+graphics/font_32_64.tga \
+graphics/font_handwriting_32_32.tga \
+graphics/font_pencil_32_32.tga \
+graphics/font_pencil_erased_32_32.tga \
+graphics/hungerBoxes.tga \
+graphics/hungerBoxFills.tga \
+graphics/hungerBoxesErased.tga \
+graphics/hungerBoxFillsErased.tga \
+graphics/hungerDashes.tga \
+graphics/hungerDashesErased.tga \
+graphics/hungerBars.tga \
+graphics/hungerBarsErased.tga \
+graphics/chalkBlot.tga \
+graphics/pathMark.tga \
+graphics/ground_t0.tga \
+graphics/ground_t1.tga \
+graphics/ground_t2.tga \
+graphics/ground_t3.tga \
+graphics/guiPanel.tga \
+graphics/guiBlood.tga \
+graphics/tempArrows.tga \
+graphics/tempArrowsErased.tga \
+graphics/notePaper.tga \
+graphics/fullSlip.tga \
+graphics/hungrySlip.tga \
+graphics/starvingSlip.tga \
+graphics/instructions.tga \
+graphics/hintSheet1.tga \
+graphics/hintSheet2.tga \
+graphics/hintSheet3.tga \
+graphics/hintSheet4.tga \
+graphics/bigPointer.tga \
+graphics/cellBorder.tga \
+graphics/cellFill.tga \
+graphics/homeArrows.tga \
+graphics/homeArrowsErased.tga \
+graphics/homeSlip.tga \
+graphics/hiddenFieldTexture.tga \
+graphics/yumSlip1.tga \
+graphics/yumSlip2.tga \
+graphics/yumSlip3.tga \
+graphics/yumSlip4.tga \
+graphics/photoBorder.tga \
+
+
+
+NEEDED_MINOR_GEMS_OBJECTS = \
+ ${SCREEN_GL_SDL_O} \
+ ${SINGLE_TEXTURE_GL_O} \
+ ${TYPE_IO_O} \
+ ${STRING_UTILS_O} \
+ ${STRING_BUFFER_OUTPUT_STREAM_O} \
+ ${BYTE_BUFFER_INPUT_STREAM_O} \
+ ${PATH_O} \
+ ${TIME_O} \
+ ${THREAD_O} \
+ ${MUTEX_LOCK_O} \
+ ${BINARY_SEMAPHORE_O} \
+ ${TRANSLATION_MANAGER_O} \
+ ${SOCKET_O} \
+ ${HOST_ADDRESS_O} \
+ ${SOCKET_CLIENT_O} \
+ ${SOCKET_SERVER_O} \
+ ${NETWORK_FUNCTION_LOCKS_O} \
+ ${LOOKUP_THREAD_O} \
+ ${WEB_REQUEST_O} \
+ ${URL_UTILS_O} \
+ ${SETTINGS_MANAGER_O} \
+ ${FINISHED_SIGNAL_THREAD_O} \
+ ${STOP_SIGNAL_THREAD_O} \
+ ${SHA1_O} \
+ ${ENCODING_UTILS_O} \
+ ${DIRECTORY_O} \
+ ${LOG_O} \
+ ${APP_LOG_O} \
+ ${FILE_LOG_O} \
+ ${PRINT_LOG_O} \
+ ${PRINT_UTILS_O} \
+ ${GAME_SDL_O} \
+ ${GAME_GRAPHICS_GL_O} \
+ ${SPRITE_GL_O} \
+ ${DOUBLE_PAIR_O} \
+ ${FONT_O} \
+ ${DRAW_UTILS_O} \
+ ${DEMO_CODE_CHECKER_O} \
+ ${AIFF_O} \
+ ${AUDIO_NO_CLIP_O} \
+ ${SOUND_SAMPLES_O} \
+ ${REVERB_SOUND_FILTER_O} \
+ ${COEFFICIENT_FILTERS_O} \
+ ${CURVE_25519_O} \
+ ${CRYPTO_RANDOM_O} \
+ ${DIFF_BUNDLE_CLIENT_O} \
+ ${STRING_TREE_O} \
+ ${CRC32_O} \
+

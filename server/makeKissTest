@@ -1,0 +1,10 @@
+rm test.db 
+rm test.dbo 
+rm test2.db
+rm test2.dbo
+ 
+g++ -g -I../.. -o kissTest kissTest.cpp kissdb.cpp stackdb.cpp lineardb.cpp lineardb2.cpp lineardb3.cpp dbCommon.cpp ../../minorGems/system/unix/TimeUnix.cpp
+
+time ./kissTest
+
+ls -lk test.db

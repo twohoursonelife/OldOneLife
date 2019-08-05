@@ -1,0 +1,178 @@
+This file describes various processes for updating game data and maintaining
+the various servers.
+
+
+
+
+++++
+Scheduling a data-only update for tonight at 9:15 UTC for all platforms.
+++++
+
+1. Commit and push data in OneLifeData7
+   Do NOT generate an git tag for the data
+
+2. Log in as jcr15@onehouronelife.com
+
+3. Run ~/checkout/OneLifeWorking/scripts/scheduleDataUpdate.sh
+
+
+
+
+
+++++
+Generating a data-only update NOW for all platforms.
+++++
+
+1. Commit and push data in OneLifeData7
+   Do NOT generate an git tag for the data
+
+2. Log in as jcr15@onehouronelife.com
+
+3. Run ~/checkout/OneLifeWorking/scripts/generateDataOnlyDiffBundle.sh
+
+
+
+
+++++
+Scheduling a server code update (local and remote) for tonight at 9:30 UTC.
+++++
+
+1. Commit and push code in OneLife and minorGems
+
+2. Log in as jcr15@onehouronelife.com
+
+3. Run ~/checkout/OneLifeWorking/scripts/scheduleServerCodeUpdate.sh
+
+
+
+
+
+++++
+Run a server code update (local and remote) NOW.
+++++
+
+1. Commit and push code in OneLife and minorGems
+
+2. Log in as jcr15@onehouronelife.com
+
+3. Run ~/checkout/OneLifeWorking/scripts/updateServerCode.sh
+
+
+
+
+
+++++
+Generating platform-specific (binary code) update for a platform.
+++++
+
+1. Update game.cpp version number.
+
+NOTE:  On Mac and Linux, steps 2-4 can be accomplished with these scripts:
+       pullBuildAndPostMac.sh
+       buildAndPostLinux.sh
+       
+       On Windows, a manual pull is needed in both minorGems and OneLife,
+       and then steps 2-4 can be accomplished with:
+       buildAndPostWindows.sh
+
+2. Build on each platform
+
+3. Run minorGems/game/diffBundle/diffBundle to generate an incremental binary
+   bundle for each platform.
+
+4. scp the .dbz files to jcr15@onehouronelife.com:diffBundles/
+
+(Do Steps 1-4 for all plaforms before doing step 5.)
+
+No longer needed with latest git pull Unix Source distribution:
+|
+| 5. Build UnixSource bundle and scp it to 
+|    jcr15@onehouronelife.com:oneLifeDownloads/
+
+No longer needed because postPlatformDiffBundle.sh tags automatically
+|
+| 6. Run "git tag -a" in Onelife and minorGems to tag version and push with
+|    "git push --tags" (to push the tags to the remote server).
+|    (Do this here so that UnixSource folks get latest tagged versions.)
+
+
+7. Log in as jcr15@onehouronelife.com
+
+8. Run ~/checkout/OneLifeWorking/scripts/postPlatformDiffBundle.sh
+
+No longer needed with latest git pull Unix Source distribution:
+|
+| 8. Editting www/ticketServer/settings.php to list latest UnixSource build.
+|
+
+9. git pull in minorGems and OneLife on working laptop.
+
+
+
+
+
+++++
+Adding new Linode remote server (game server, download server).
+++++
+
+1. Create a Linode in control panel, install Ubuntu LTS on it, boot it.
+
+2. Note the IP address and root password, and give it a name 
+   (server3, download2).
+
+3. Add DNS A record here:
+   https://manager.linode.com/dns/domain/onehouronelife%2Ecom
+
+4. Log in to root@onehouronelife.com
+
+5. Wait 15+ minutes for DNS to propagate.
+   Check with:
+   nslookup  newdomain.onehouronelife.com   ns1.linode.com
+   NOTE:  don't ping it too early or a negative record will be cached.
+
+6. run ~/checkout/OneLife/scripts/rootAddNewDownloadServer.sh
+       OR
+       ~/checkout/OneLife/scripts/rootAddNewRemoteServer.sh
+
+
+
+++++
+Removing a Linode game server.
+++++
+
+1. Log in as jcr15@onehouronelife.com
+
+2. Remove from ~/www/reflector/remoteServerList.ini
+
+3. Remove from ~/.ssh/config
+
+4. Run
+   ~/checkout/OneLifeWorking/scripts/tellBackupServerAboutGameServerChanges.sh
+
+5. Remove DNS A record here:
+   https://manager.linode.com/dns/domain/onehouronelife%2Ecom
+
+6. Remove from Linode dashboard.
+
+
+
+
+
+++++
+Removing a Linode download server.
+++++
+
+1. Log in as jcr15@onehouronelife.com
+
+2. Remove from ~/oneLifeDownloads/remoteServerList.ini
+
+3. Remove from ~/diffBundles/remoteServerList.ini
+
+4. Remove from ~/.ssh/config
+
+5. run ~/checkout/OneLifeWorking/scripts/removeDownloadServerFromURLLists.sh
+
+6. Remove DNS A record here:
+   https://manager.linode.com/dns/domain/onehouronelife%2Ecom
+
+7. Remove from Linode dashboard.

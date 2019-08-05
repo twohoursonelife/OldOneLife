@@ -1,0 +1,73 @@
+#!/bin/sh
+
+if [ $# -lt 1 ] ; then
+   echo "Usage: $0 release_name"
+   exit 1
+fi
+
+
+rm -rf base
+
+mkdir base
+
+
+baseFolder=base/OneLife_$1
+
+mkdir $baseFolder
+mkdir $baseFolder/graphics
+mkdir $baseFolder/otherSounds
+mkdir $baseFolder/settings
+mkdir $baseFolder/languages
+mkdir $baseFolder/groundTileCache
+mkdir $baseFolder/reverbCache
+
+mkdir $baseFolder/sprites
+mkdir $baseFolder/objects
+mkdir $baseFolder/categories
+mkdir $baseFolder/transitions
+mkdir $baseFolder/animations
+mkdir $baseFolder/music
+mkdir $baseFolder/sounds
+mkdir $baseFolder/ground
+
+
+
+cp ../gameSource/graphics/*.tga $baseFolder/graphics
+cp ../gameSource/otherSounds/*.aiff $baseFolder/otherSounds
+cp ../gameSource/settings/*.ini $baseFolder/settings
+cp ../gameSource/languages/*.txt $baseFolder/languages
+cp ../gameSource/language.txt $baseFolder
+cp ../gameSource/us_english_60.txt $baseFolder
+cp ../documentation/Readme.txt $baseFolder
+cp ../no_copyright.txt $baseFolder
+
+cp ../gameSource/reverbImpulseResponse.aiff $baseFolder/
+
+cp ../gameSource/wordList.txt $baseFolder/
+
+
+cp ../../OneLifeData7/sprites/* $baseFolder/sprites
+cp ../../OneLifeData7/objects/* $baseFolder/objects
+cp ../../OneLifeData7/categories/* $baseFolder/categories
+cp ../../OneLifeData7/transitions/* $baseFolder/transitions
+cp ../../OneLifeData7/animations/* $baseFolder/animations
+cp ../../OneLifeData7/music/* $baseFolder/music
+cp ../../OneLifeData7/sounds/* $baseFolder/sounds
+cp ../../OneLifeData7/ground/* $baseFolder/ground
+
+
+
+cp ../../OneLifeData7/dataVersionNumber.txt $baseFolder/
+
+
+rm -f $baseFolder/settings/email.ini
+rm -f $baseFolder/settings/accountKey.ini
+
+
+# remove all editor backup files
+find $baseFolder -name "*~" -exec rm -f {} \;
+
+
+
+
+

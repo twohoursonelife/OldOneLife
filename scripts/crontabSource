@@ -1,0 +1,31 @@
+SHELL=/bin/bash
+
+0 8 * * * /home/jcr15/checkout/OneLifeWorking/scripts/generateObjectReport.sh
+0 0 * * * /home/jcr15/updateMetascores.sh
+0 9 * * * /home/jcr15/mainBackupPush.sh
+15 9 * * * /home/jcr15/checkout/OneLifeWorking/scripts/checkForDataUpdateCron.sh
+30 9 * * * /home/jcr15/checkout/OneLifeWorking/scripts/checkForServerCodeUpdateCron.sh
+
+
+30 8 * * * /home/jcr15/checkout/OneLifeWorking/scripts/makeWebLifeLogData.sh 2
+35 8 * * * /home/jcr15/checkout/OneLifeWorking/scripts/makeWebCurseLogData.sh 2
+40 8 * * * /home/jcr15/checkout/OneLifeWorking/scripts/publicDataPush.sh
+
+
+*/30 * * * * /home/jcr15/checkout/OneLifeWorking/scripts/generateLifeStats.sh
+*/30 * * * * /home/jcr15/checkout/OneLifeWorking/scripts/generateMonumentStats.sh
+5 * * * * /home/jcr15/checkout/OneLifeWorking/scripts/generateFoodStats.sh
+6 * * * * /home/jcr15/checkout/OneLifeWorking/scripts/generateFailureStats.sh
+
+
+
+*/5 * * * * /home/jcr15/checkout/OneLifeWorking/scripts/updateReviewHTML.sh
+
+
+*/5 * * * * /home/jcr15/checkout/OneLifeWorking/scripts/updateGitMirrors.sh
+
+
+*/5 * * * * /home/jcr15/checkout/OneLifeWorking/scripts/syncMapChangeLogs.sh
+
+
+* * * * * php /home/jcr15/bulkEmailer/bulkEmailer.php

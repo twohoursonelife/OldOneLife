@@ -1,0 +1,1 @@
+g++ -g -I../.. -o audioNoClipTest audioNoClipTest.cpp ../../minorGems/sound/formats/aiff.cpp ../../minorGems/sound/audioNoClip.cpp ../../minorGems/io/file/linux/PathLinux.cpp ../../minorGems/util/StringBufferOutputStream.cpp

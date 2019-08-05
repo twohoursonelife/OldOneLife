@@ -1,0 +1,54 @@
+
+
+Paper masking process:
+
+1.  Scan paper piece with desired edges (torn, etc) on black background
+
+2.  Levels with black @48 and white @232
+
+3.  Duplicate twice (call White and Black)
+
+4.  Use Curves to isolate almost white and almost black pixels on layers from 3.
+
+5.  New transparent layer, called Cleanup.
+
+6.  Paint over almost-white/black pixels with solid white/black paint in
+    layer from 5.
+
+7.  Merge Cleanup layer with leveled layer from 2.  This makes a mask.
+
+8.  Scan a solid piece of paper for texture (graph paper, not paper, etc).
+
+9.  Mask paper texture with mask from 7 to get a cut-out version of it.
+
+10.  Make solid black layer and mask it with same mask.
+
+11.  Blur black with radius 13, set layer opacity to 86% for shadow.
+     (Smaller slips use blur radius 7 with opacity 66% for shadow).
+
+
+Font process:
+
+1.  Scan black font on white paper.
+
+2.  Levels with white point @ 239
+
+3.  Duplicate and apply Curves with _| shape to isolate almost-white points.
+
+4.  New trans layer, and paint white paint over almost-white points.
+
+5.  Merge 4 onto result of 2.
+
+6.  Invert.
+
+
+
+
+Sepia for Steam capsules:
+
+1.  Desaturate with luminostiy.
+
+
+2.  Colorize with these settings:
+  Hue, sat, lightness:
+  39,  38,  16

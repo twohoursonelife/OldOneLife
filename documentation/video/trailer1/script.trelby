@@ -1,0 +1,380 @@
+﻿#Version 3
+#Begin-Auto-Completion 
+AutoCompletion/Scene/Enabled:True
+AutoCompletion/Scene/Items:0
+AutoCompletion/Character/Enabled:True
+AutoCompletion/Character/Items:0
+AutoCompletion/Transition/Enabled:True
+AutoCompletion/Transition/Items:12
+AutoCompletion/Transition/Items/1:BACK TO:
+AutoCompletion/Transition/Items/2:CROSSFADE:
+AutoCompletion/Transition/Items/3:CUT TO:
+AutoCompletion/Transition/Items/4:DISSOLVE TO:
+AutoCompletion/Transition/Items/5:FADE IN:
+AutoCompletion/Transition/Items/6:FADE OUT
+AutoCompletion/Transition/Items/7:FADE TO BLACK
+AutoCompletion/Transition/Items/8:JUMP CUT TO:
+AutoCompletion/Transition/Items/9:MATCH CUT TO:
+AutoCompletion/Transition/Items/10:SLOW FADE TO BLACK
+AutoCompletion/Transition/Items/11:SMASH CUT TO:
+AutoCompletion/Transition/Items/12:TIME CUT:
+#End-Auto-Completion 
+#Begin-Config 
+FontSize:12
+Margin/Bottom:25.40
+Margin/Left:38.10
+Margin/Right:25.40
+Margin/Top:12.70
+Paper/Height:279.40
+Paper/Width:215.90
+PageBreakActionLines:2
+PageBreakDialogueLines:2
+SceneContinueds:False
+SceneContinuedIndent:45
+ShowSceneNumbers:False
+IncludeTOC:True
+ShowTOC:True
+OpenOnCurrentPage:True
+RemoveNotes:False
+OutlineNotes:True
+ShowMargins:False
+ShowLineNumbers:False
+Cursor/Line:58
+Cursor/Column:5
+String/MoreDialogue:(MORE)
+String/ContinuedPageEnd:(CONTINUED)
+String/ContinuedPageStart:CONTINUED:
+String/DialogueContinued: (cont'd)
+Element/Scene/BeforeSpacing:10
+Element/Scene/IntraSpacing:0
+Element/Scene/Indent:0
+Element/Scene/Width:60
+Element/Scene/Screen/AllCaps:True
+Element/Scene/Screen/Bold:True
+Element/Scene/Screen/Italic:False
+Element/Scene/Screen/Underlined:False
+Element/Scene/Export/AllCaps:True
+Element/Scene/Export/Bold:False
+Element/Scene/Export/Italic:False
+Element/Scene/Export/Underlined:False
+Element/Action/BeforeSpacing:10
+Element/Action/IntraSpacing:0
+Element/Action/Indent:0
+Element/Action/Width:60
+Element/Action/Screen/AllCaps:False
+Element/Action/Screen/Bold:False
+Element/Action/Screen/Italic:False
+Element/Action/Screen/Underlined:False
+Element/Action/Export/AllCaps:False
+Element/Action/Export/Bold:False
+Element/Action/Export/Italic:False
+Element/Action/Export/Underlined:False
+Element/Character/BeforeSpacing:10
+Element/Character/IntraSpacing:0
+Element/Character/Indent:22
+Element/Character/Width:38
+Element/Character/Screen/AllCaps:True
+Element/Character/Screen/Bold:False
+Element/Character/Screen/Italic:False
+Element/Character/Screen/Underlined:False
+Element/Character/Export/AllCaps:True
+Element/Character/Export/Bold:False
+Element/Character/Export/Italic:False
+Element/Character/Export/Underlined:False
+Element/Dialogue/BeforeSpacing:0
+Element/Dialogue/IntraSpacing:0
+Element/Dialogue/Indent:10
+Element/Dialogue/Width:35
+Element/Dialogue/Screen/AllCaps:False
+Element/Dialogue/Screen/Bold:False
+Element/Dialogue/Screen/Italic:False
+Element/Dialogue/Screen/Underlined:False
+Element/Dialogue/Export/AllCaps:False
+Element/Dialogue/Export/Bold:False
+Element/Dialogue/Export/Italic:False
+Element/Dialogue/Export/Underlined:False
+Element/Parenthetical/BeforeSpacing:0
+Element/Parenthetical/IntraSpacing:0
+Element/Parenthetical/Indent:16
+Element/Parenthetical/Width:25
+Element/Parenthetical/Screen/AllCaps:False
+Element/Parenthetical/Screen/Bold:False
+Element/Parenthetical/Screen/Italic:False
+Element/Parenthetical/Screen/Underlined:False
+Element/Parenthetical/Export/AllCaps:False
+Element/Parenthetical/Export/Bold:False
+Element/Parenthetical/Export/Italic:False
+Element/Parenthetical/Export/Underlined:False
+Element/Transition/BeforeSpacing:10
+Element/Transition/IntraSpacing:0
+Element/Transition/Indent:45
+Element/Transition/Width:20
+Element/Transition/Screen/AllCaps:True
+Element/Transition/Screen/Bold:False
+Element/Transition/Screen/Italic:False
+Element/Transition/Screen/Underlined:False
+Element/Transition/Export/AllCaps:True
+Element/Transition/Export/Bold:False
+Element/Transition/Export/Italic:False
+Element/Transition/Export/Underlined:False
+Element/Shot/BeforeSpacing:10
+Element/Shot/IntraSpacing:0
+Element/Shot/Indent:0
+Element/Shot/Width:60
+Element/Shot/Screen/AllCaps:True
+Element/Shot/Screen/Bold:False
+Element/Shot/Screen/Italic:False
+Element/Shot/Screen/Underlined:False
+Element/Shot/Export/AllCaps:True
+Element/Shot/Export/Bold:False
+Element/Shot/Export/Italic:False
+Element/Shot/Export/Underlined:False
+Element/Note/BeforeSpacing:10
+Element/Note/IntraSpacing:0
+Element/Note/Indent:5
+Element/Note/Width:55
+Element/Note/Screen/AllCaps:False
+Element/Note/Screen/Bold:False
+Element/Note/Screen/Italic:True
+Element/Note/Screen/Underlined:False
+Element/Note/Export/AllCaps:False
+Element/Note/Export/Bold:False
+Element/Note/Export/Italic:True
+Element/Note/Export/Underlined:False
+Element/Act break/BeforeSpacing:10
+Element/Act break/IntraSpacing:0
+Element/Act break/Indent:25
+Element/Act break/Width:10
+Element/Act break/Screen/AllCaps:True
+Element/Act break/Screen/Bold:True
+Element/Act break/Screen/Italic:False
+Element/Act break/Screen/Underlined:True
+Element/Act break/Export/AllCaps:True
+Element/Act break/Export/Bold:False
+Element/Act break/Export/Italic:False
+Element/Act break/Export/Underlined:True
+Font/Bold-Italic/Name:
+Font/Bold-Italic/Filename:
+Font/Bold/Name:
+Font/Bold/Filename:
+Font/Italic/Name:
+Font/Italic/Filename:
+Font/Normal/Name:
+Font/Normal/Filename:
+#End-Config 
+#Begin-Locations 
+Locations:0
+#End-Locations 
+#Begin-Spell-Checker-Dict 
+Words:1
+Words/1:rohrer
+#End-Spell-Checker-Dict 
+#Title-String 0.000000,105.000000,12,cb,Courier,,ONE HOUR ONE LIFE LAUNCH TRAILER
+#Title-String 0.000000,120.460000,12,c,Courier,,by\n\nJason Rohrer
+#Title-String 15.000000,248.460000,12,,Courier,,530-756-4491\njasonrohrer@fastmail.fm
+#Header-String 1,0,r,,${PAGE}.
+#Header-Empty-Lines 1
+#Start-Script 
+.\BIRD'S EYE VIEW
+>.We peer down into a hand-drawn rendition of a home office. 
+..Cut-away walls.  Invisible roof.
+>.White drywall supports a few paintings and bookshelves above
+>.a blond hardwood floor.  A cluttered computer desk sits in
+>.front of a window, looking out into the wooded wilderness
+>.beyond.  A closed DOOR occupies the middle of the south
+..wall.
+>.Time is passing quickly.  A CLOCK hangs on the wall, and the
+>.hands are spinning wildly.  The minute hand is a
+>.barely-visible blur.  A CALENDAR hangs on the wall nearby,
+>.and it mysteriously flips to the next month every five
+..seconds. 
+>.A CARTOON MAN putters around the office.  He is tall and
+..gangly, slightly balding, and wears a t-shirt and shorts.
+>.The man turns toward the camera and waves one of his
+..spindly, pen-line arms in greeting.
+._MAN
+.:Hello there!
+..The cartoon man points to himself.
+._MAN
+.:I'm Jason Rohrer.
+.((hesitates)
+>:Well, at least this is what I look
+>:like inside my new game One Hour
+.:One Life.
+..JASON gestures to the office around him.
+._JASOn
+>:Yep, this is it!  We're live inside
+.:the game right now.
+.((rubs chin pensively)
+>:Actually, this is my modern home
+>:office.  Civilization in the rest
+>:of the game hasn't gotten quite
+>:this advanced yet.  Maybe someday,
+.:though.
+>.Jason's hairline suddenly recedes more and he sprouts a
+..bushy mustache with an audible POP.
+._JASON
+>:Did you see that?  I just got older
+>:again.  A whole year passes every
+>:minute, and we live an entire
+>:lifetime, from birth to old age, in
+>:just one hour.  We'd better get on
+>:with this tour before my time runs
+.:out.
+>.Jason grabs an olive drab BOONIE HAT from a hook and puts it
+>.on his head.  He opens the office door in the south wall and
+..heads east into the surrounding wilderness.
+._Jason
+>:Everything you see here exists on a
+>:persistent server.  It starts out
+>:full of untouched wilderness, and
+>:it's up to us, the players, to
+>:rebuild civilization from scratch
+.:together.
+>.Jason continues walking to the east through a grove of
+..trees.
+>.FOOTSTEPS can be heard off camera to the east.  Jason hides
+..himself behind a bush and peers out into a clearing.
+._JASON
+.:I think she's coming!
+>.A WOMAN, clad in primitive furs, walks out into the
+..clearing. 
+._Jason
+>:That's Eve, the first player to
+>:join the server.  And the second
+>:player should be joining right
+.:about now--
+>.A screaming BABY pops into existence, naked, bald, and pink,
+..next to EVE.
+._JASON
+>:Yep, that's player two, Eve's first
+.:baby.
+>.Eve picks up the baby.  The baby's tiny eyes open as it
+..stops crying.  Eve carries the baby off-screen.
+._JASON
+>:When you join the server as a baby,
+.:you're truly helpless.
+>.Jason now walks north into the forest, and a crying, naked
+>.baby runs past him and disappears among the trees.  Jason
+>.enters another clearing where several fur-clad adults care
+..for and feed babies and children of various ages.
+._Jason
+>:You depend on care from your
+>:parents to survive.  If they help
+>:you into adulthood, you may get a
+>:chance to have babies of your own
+.:someday.
+>.Jason leaves the second clearing and continues walking east
+..through a swamp.
+._JASON
+>:And your babies will be other
+>:players who are depending on you
+>:for their survival.  You're just
+>:one small link in a very long
+.:chain.
+>.Jason walks into a PRIMITIVE CAMP.  Several fur-clad men,
+>.women, and children of various ages work together.  Chopping
+>.wood into kindling.  Skinning a rabbit.  A fire burns in the
+..center of the camp.
+._Jason
+>:What you accomplish in your brief
+>:lifetime will depend on the
+.:situation that you're born into.
+>.As Jason leaves the camp, he finds a discarded WOODEN SHAFT
+>.and a SHARP STONE.  He attaches them together to make a
+>.STONE HATCHET. He gives the hatchet a swing, feeling its
+..heft.
+._Jason
+>:At first, your contribution might
+.:be pretty basic.
+>.Jason walk east and through a grassy meadow, carrying the
+..hatchet with him.
+._Jason
+>:But future generations can build on
+>:the foundation that you help to
+.:create.
+>.Jason continues walking east and a lashed WOODEN HUT comes
+>.into view.  Neatly-planted rows of carrots and wheat spread
+>.to each side of the front door, with a path down the middle. 
+>.An adobe oven burns inside the hut, with a fur-clad elderly
+>.man tending it.  Two fur-clad children open the front door
+..and run out.
+>.Jason continues walking to the east, into a busy ADOBE
+>.VILLAGE, and a roaring forge comes into view, with several
+>.steel tools scattered around it.  Domesticated sheep graze
+..in a fenced pasture.
+._JASON
+>:Hopefully, you'll have a chance to
+>:leave your own small mark on the
+>:world before you die, and maybe
+>:create something that helps your
+.:children and grandchildren.
+>.A man and a woman, now clad in woven wool clothing, use
+>.steel axes to chop down several trees.  They load the wood
+..into a wheeled hand cart.
+._JASON
+>:But really, all of this is just the
+.:beginning.
+>.PIANO MUSIC swells as Jason walks north to where he crosses
+>.a PAVED ROAD.  Suddenly a gleaming red SPORTS CAR roars by
+>.with a smiling DRIVER inside.  The driver honks as Jason
+..scurries to safety.
+._JASON
+>:As players continue climbing up
+>:through the tech tree, I'll be
+>:staying one step ahead of them by
+>:adding new stuff to the game every
+.:week.
+>.Jason heads east down the paved road, which leads him under
+>.a raised MAG-LEV LINE, and a sleek, aerodynamic TRANSPORT
+>.CAPSULE floats by.  The passenger wears a black, wrap-around
+..visor.
+._JASON
+>:So I hope you'll join me as this
+>:crazy game unfolds.  I may even
+>:spawn as your baby at some point,
+>:and it will be up to you to take
+.:care of me.
+>.Jason follows the mag-lev line north to the gates of a
+>.FUTURISTIC CITY with Jetson-esque towers on the corners of
+..the walls.
+._JASON
+>:As we rebuild civilization
+>:together, who knows where we'll end
+.:up?
+>.A hovering bronze ROBOT stationed near the gate approaches
+>.Jason with an ION WEAPON raised.  With an audible CRACK, the
+>.tip of the weapon emits a purple spark, and Jason collapses
+..into a pile of HUMAN BONES.
+./CUT TO:
+.\GAME OVER SCREEN
+..  YOU DIED
+..  AGE:  40 YEARS
+..  CAUSE:  KILLED BY ATOMIC POWERED ROBOT
+..  [QUIT]    [GET REBORN]
+..Piano music continues.
+./CUT TO:
+.\TITLE CARD  
+..  ONE HOUR
+..  ONE LIFE
+.\TITLE CARD
+..  A NEW GAME
+..  100% HANDMADE
+..  BY JASON ROHRER
+.\TITLE CARD
+..  AVAILABLE NOW
+.\TITLE CARD
+..  ONEHOURONELIFE.COM
+./CUT TO:
+.\BIRD'S EYE VIEW
+>.Piano music fades as we see the robot still hovering near
+>.Jason's bones.  It tilts its head down mechanically as if to
+..address the bone pile.
+._Robot
+>:I am the Atomic Powered Robot. 
+>:Please give my best wishes to
+.:everybody.
+>.The robot hovers north through the city gates and out of
+..view.
+>.We linger quietly on the now-deserted gates of the
+..futuristic city and the pile of human bones. 

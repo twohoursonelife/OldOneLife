@@ -1,0 +1,23 @@
+./makeGenMouthShapes.sh
+
+mkdir out
+mkdir mouthShapes
+
+rm mouthShapes/*
+
+# to view mouths on white background separately
+# mogrify -format tga -background white -flatten mouthsPNG/shape*.png
+
+mogrify -format tga mouthsPNG/shape*.png
+
+mv mouthsPNG/*.tga mouthShapes
+
+rm out/*
+
+./genMouthShapes  test.aiff  60 6 0.05 mouthShapes out mouthFrameList.txt
+
+rm -f test.mkv
+
+./makeX264Video
+
+vlc test.mkv

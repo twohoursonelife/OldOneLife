@@ -1,0 +1,66 @@
+Frames generated using client from OneLife commit:
+
+
+commit eb287a6754e3338869ae31a9292d45b0262b212a
+Author: Jason Rohrer <jasonrohrer@fastmail.fm>
+Date:   Wed Dec 13 19:13:59 2017 -0800
+
+
+OneLifeData7 commit:
+
+commit bceb7d2e2ece5f918d0c505b91f4c107f4582b00
+Author: Jason Rohrer <jasonrohrer@fastmail.fm>
+Date:   Tue Dec 12 16:11:23 2017 -080
+
+
+minorGems commit:
+
+commit 4323d4a78d134961e29dee8d8172f228eac12f95
+Author: Jason Rohrer <jasonrohrer@fastmail.fm>
+Date:   Wed Dec 13 15:20:24 2017 -0800
+
+
+
+main.txt recorded game used for bulk of video
+ending.txt recorded game used for ending of video
+
+
+By saving recordings, we don't need to store actual frames, which are huge.
+
+
+
+For second take of video:
+
+OneLife:
+
+commit bbf8e30c2c608ba81ac7ea8bf0340edf7983f29c
+Author: Jason Rohrer <jasonrohrer@fastmail.fm>
+Date:   Tue Dec 26 17:22:39 2017 -0800
+
+
+OneLifeData7:
+
+commit f7d1db157394a796387c704b45e09b3eeaf8e825
+Author: Jason Rohrer <jasonrohrer@fastmail.fm>
+Date:   Tue Dec 26 16:56:30 2017 -0800
+
+
+minorGems:
+
+commit 03b9f1fe68ffa3517a8f7a26fd34ea79016b880a
+Author: Jason Rohrer <jasonrohrer@fastmail.fm>
+Date:   Tue Dec 26 10:54:40 2017 -0800
+
+
+main2.txt recorded game used for bulk of video
+ending2.txt recorded game used for ending of video
+
+
+
+
+Thumbnail taken by turning labels off in LivingLifePage.cpp
+Thumbnail is frame 967 from main.txt replay.
+
+Font is Futura Bold 150
+Shadow is black blurred at 50 radius, and then doubled, with second
+copy at 31% opacity.
