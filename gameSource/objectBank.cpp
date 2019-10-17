@@ -1,4 +1,3 @@
-
 #include "objectBank.h"
 
 #include "minorGems/util/StringTree.h"
