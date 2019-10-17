@@ -473,8 +473,8 @@ static void setupOwned( ObjectRecord *inR ) {
 
 
 
-//2HOL addition for: password-protected doors
-static void setupForInGamePassword( ObjectRecord *inR ) {
+//2HOL additions for: password doors
+static void setupInGamePassword( ObjectRecord *inR ) {
     inR->hasInGamePassword = false;
     
     char *passPos = strstr( inR->description, "+password" );
