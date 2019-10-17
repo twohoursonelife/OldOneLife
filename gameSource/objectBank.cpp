@@ -474,11 +474,56 @@ static void setupOwned( ObjectRecord *inR ) {
 
 
 
+//2HOL addition for: password-protected doors
+static void setupForInGamePassword( ObjectRecord *inR ) {
+    inR->hasInGamePassword = false;
+    
+    char *passPos = strstr( inR->description, "+password" );
+    if( passPos != NULL ) {
+        inR->hasInGamePassword = true;
+        }
+    }
+
+
+
 static void setupNoHighlight( ObjectRecord *inR ) {
     inR->noHighlight = false;
     
     if( strstr( inR->description, "+noHighlight" ) != NULL ) {
         inR->noHighlight = true;
+        }
+    }
+
+
+
+static void setupMaxPickupAge( ObjectRecord *inR ) {
+    inR->maxPickupAge = 9999999;
+    
+
+    const char *key = "maxPickupAge_";
+    
+    char *loc = strstr( inR->description, key );
+
+    if( loc != NULL ) {
+        
+        char *indexLoc = &( loc[ strlen( key ) ] );
+        
+        sscanf( indexLoc, "%d", &( inR->maxPickupAge ) );
+        }
+    }
+
+
+
+static void setupWall( ObjectRecord *inR ) {
+    inR->wallLayer = inR->floorHugging;
+    
+    if( inR->wallLayer ) {
+        return;
+        }
+
+    char *wallPos = strstr( inR->description, "+wall" );
+    if( wallPos != NULL ) {
+        inR->wallLayer = true;
         }
     }
 
@@ -546,6 +591,15 @@ float initObjectBankStep() {
                 
                 setupNoHighlight( r );
                 
+                setupMaxPickupAge( r );
+                
+                // do this later, after we parse floorHugging
+                // setupWall( r );
+                
+
+                r->horizontalVersionID = -1;
+                r->verticalVersionID = -1;
+                r->cornerVersionID = -1;
 
                 next++;
                             
@@ -786,6 +840,9 @@ float initObjectBankStep() {
                     
                     next++;
                     }
+
+
+                setupWall( r );
 
                             
                 sscanf( lines[next], "foodValue=%d", 
@@ -1768,6 +1825,66 @@ void initObjectBankFinish() {
         }
 
             // resaveAll();
+
+    
+    // populate vertical and corner version pointers for walls and fences
+    for( int i=0; i<mapSize; i++ ) {
+        if( idMap[i] != NULL ) {
+            ObjectRecord *o = idMap[i];
+            
+            const char *key = "+horizontal";
+            
+            char *pos = strstr( o->description, key );
+            
+            if( pos != NULL ) {
+                char *skipKey = &( pos[ strlen( key ) ] );
+                
+                char label[20];
+                int numRead = sscanf( skipKey, "%19s", label );
+                
+                if( numRead != 1 ) {
+                    continue;
+                    }
+
+                char *vertKey = autoSprintf( "+vertical%s", label );
+                char *cornerKey = autoSprintf( "+corner%s", label );
+                
+                for( int j=0; j<mapSize; j++ ) {
+                    if( j != i && idMap[j] != NULL ) {
+                        ObjectRecord *oOther = idMap[j];
+                        
+                        if( strstr( oOther->description, vertKey ) ) {
+                            o->verticalVersionID = oOther->id;
+                            }
+                        else if( strstr( oOther->description, cornerKey ) ) {
+                            o->cornerVersionID = oOther->id;
+                            }
+                        }
+                    }
+
+                delete [] vertKey;
+                delete [] cornerKey;
+                
+                if( o->verticalVersionID != -1 && o->cornerVersionID != -1 ) {
+                    o->horizontalVersionID = o->id;
+                    
+                    // make sure they all know about each other
+                    ObjectRecord *vertO = getObject( o->verticalVersionID );
+                    ObjectRecord *cornerO = getObject( o->cornerVersionID );
+                    
+                    vertO->horizontalVersionID = o->id;
+                    vertO->verticalVersionID = vertO->id;
+                    vertO->cornerVersionID = cornerO->id;
+
+                    cornerO->horizontalVersionID = o->id;
+                    cornerO->verticalVersionID = vertO->id;
+                    cornerO->cornerVersionID = cornerO->id;
+                    }
+                }
+            }
+        }
+
+
     }
 
 
@@ -3016,6 +3133,15 @@ int addObject( const char *inDescription,
     
     setupOwned( r );
     
+    setupNoHighlight( r );
+                
+    setupMaxPickupAge( r );
+
+    setupWall( r );
+
+    r->horizontalVersionID = -1;
+    r->verticalVersionID = -1;
+    r->cornerVersionID = -1;
 
     memset( r->spriteSkipDrawing, false, inNumSprites );
     
@@ -5474,8 +5600,16 @@ void restoreSkipDrawing( ObjectRecord *inObject ) {
 
 
 
-
-
-
-
-
+char canPickup( int inObjectID, double inPlayerAge ) {
+    ObjectRecord *o = getObject( inObjectID );
+    
+    if( o->minPickupAge > inPlayerAge ) {
+        return false;
+        }
+    
+    if( o->maxPickupAge < inPlayerAge ) {
+        return false;
+        }
+    
+    return true;
+    }
