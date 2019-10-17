@@ -50,9 +50,6 @@ typedef struct ObjectRecord {
         // age you have to be to to pick something up
         int minPickupAge;
         
-        // if you're > this age, you cannot pick up this object
-        int maxPickupAge;
-        
 
         // true for smaller objects that have heldOffsets relative to
         // front, moving hand
@@ -137,11 +134,6 @@ typedef struct ObjectRecord {
         // for vertical walls, neighboring floors auto-extended to meet
         // them
         char floorHugging;
-        
-        // for non floor-hugging objects that are still in wall layer
-        // marked in object description with +wall
-        // floorHugging objects automatically get wallLayer set to true
-        char wallLayer;
         
         
         int foodValue;
@@ -371,15 +363,6 @@ typedef struct ObjectRecord {
         
         char noHighlight;
         
-        // for auto-orienting fences, walls, etc
-        // all three objects know the IDs of all three objects
-        int horizontalVersionID;
-        int verticalVersionID;
-        int cornerVersionID;
-        
-        //2HOL addition for: password-protected doors
-        char hasInGamePassword;
-
     } ObjectRecord;
 
 
@@ -838,11 +821,6 @@ int getMaxSpeechPipeIndex();
 int getNumGlobalTriggers();
 
 int getMetaTriggerObject( int inTriggerIndex );
-
-
-
-// can a player of this age pick up a given object?
-char canPickup( int inObjectID, double inPlayerAge );
 
 
 
