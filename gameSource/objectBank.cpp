@@ -473,6 +473,17 @@ static void setupOwned( ObjectRecord *inR ) {
     }
 
 
+//2HOL additions for: password doors
+static void setupInGamePassword( ObjectRecord *inR ) {
+    inR->hasInGamePassword = false;
+    
+    char *passPos = strstr( inR->description, "+password" );
+    if( passPos != NULL ) {
+        inR->hasInGamePassword = true;
+        }
+    }
+
+
 
 static void setupNoHighlight( ObjectRecord *inR ) {
     inR->noHighlight = false;
