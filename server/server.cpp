@@ -168,6 +168,10 @@ static SimpleVector<char*> cursingPhrases;
 static SimpleVector<char*> youGivingPhrases;
 static SimpleVector<char*> namedGivingPhrases;
 
+//2HOL additions for: password doors
+static SimpleVector<char*> passwordSettingPhrases;
+static SimpleVector<char*> passwordInvokingPhrases;
+
 
 
 static char *eveName = NULL;
@@ -1565,6 +1569,10 @@ void quitCleanup() {
     cursingPhrases.deallocateStringElements();
     youGivingPhrases.deallocateStringElements();
     namedGivingPhrases.deallocateStringElements();
+    
+    //2HOL maintenance
+    passwordSettingPhrases.deallocateStringElements();
+    passwordInvokingPhrases.deallocateStringElements();
     
     if( eveName != NULL ) {
         delete [] eveName;
@@ -8424,9 +8432,7 @@ char *isCurseNamingSay( char *inSaidString ) {
 char *isNamedGivingSay( char *inSaidString ) {
     return isReverseNamingSay( inSaidString, &namedGivingPhrases );
     }
-
-
-
+    
 char isYouGivingSay( char *inSaidString ) {
     if( inSaidString[0] == ':' ) {
         // first : indicates reading a written phrase.
@@ -8447,7 +8453,33 @@ char isYouGivingSay( char *inSaidString ) {
     return false;
     }
 
+//2HOL additions for: password doors
+char *isPasswordSettingSay( char *inSaidString ) {
 
+    for( int i=0; i<passwordSettingPhrases.size(); i++ ) {
+        char *testString = passwordSettingPhrases.getElementDirect( i );
+        
+        char *hitLoc = strstr( inSaidString, testString );
+
+        if( hitLoc != NULL ) {
+            return true;
+            }
+        }
+    return false;
+    }
+char *isPasswordInvokingSay( char *inSaidString ) {
+
+    for( int i=0; i<passwordInvokingPhrases.size(); i++ ) {
+        char *testString = passwordInvokingPhrases.getElementDirect( i );
+        
+        char *hitLoc = strstr( inSaidString, testString );
+
+        if( hitLoc != NULL ) {
+            return true;
+            }
+        }
+    return false;
+    }
 
 
 LiveObject *getClosestOtherPlayer( LiveObject *inThisPlayer,
@@ -10100,6 +10132,10 @@ int main() {
     
     readPhrases( "youGivingPhrases", &youGivingPhrases );
     readPhrases( "namedGivingPhrases", &namedGivingPhrases );
+    
+    //2HOL additions for: password doors
+    readPhrases( "passwordSettingPhrases", &passwordSettingPhrases );
+    readPhrases( "passwordInvokingPhrases", &passwordInvokingPhrases );
     
 
     eveName = 
