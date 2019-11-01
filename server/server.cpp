@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
@@ -170,6 +169,9 @@ static SimpleVector<char*> cursingPhrases;
 static SimpleVector<char*> youGivingPhrases;
 static SimpleVector<char*> namedGivingPhrases;
 
+//2HOL additions for: password doors
+static SimpleVector<char*> passwordSettingPhrases;
+static SimpleVector<char*> passwordInvokingPhrases;
 
 
 static char *eveName = NULL;
@@ -1569,6 +1571,9 @@ void quitCleanup() {
     youGivingPhrases.deallocateStringElements();
     namedGivingPhrases.deallocateStringElements();
     
+    //2HOL maintenance
+    passwordSettingPhrases.deallocateStringElements();
+    passwordInvokingPhrases.deallocateStringElements();                                        
     if( eveName != NULL ) {
         delete [] eveName;
         eveName = NULL;
@@ -8473,8 +8478,34 @@ char isYouGivingSay( char *inSaidString ) {
     return false;
     }
 
+//2HOL additions for: password doors
+char *isPasswordSettingSay( char *inSaidString ) {
 
+    for( int i=0; i<passwordSettingPhrases.size(); i++ ) {
+        char *testString = passwordSettingPhrases.getElementDirect( i );
+        
+        char *hitLoc = strstr( inSaidString, testString );
 
+        if( hitLoc != NULL ) {
+            return true;
+            }
+        }
+    return false;
+    }
+char *isPasswordInvokingSay( char *inSaidString ) {
+
+    for( int i=0; i<passwordInvokingPhrases.size(); i++ ) {
+        char *testString = passwordInvokingPhrases.getElementDirect( i );
+        
+        char *hitLoc = strstr( inSaidString, testString );
+
+        if( hitLoc != NULL ) {
+            return true;
+            }
+        }
+    return false;
+    }
+    
 
 LiveObject *getClosestOtherPlayer( LiveObject *inThisPlayer,
                                    double inMinAge = 0,
@@ -10127,7 +10158,10 @@ int main() {
     readPhrases( "youGivingPhrases", &youGivingPhrases );
     readPhrases( "namedGivingPhrases", &namedGivingPhrases );
     
-
+    //2HOL additions for: password doors
+    readPhrases( "passwordSettingPhrases", &passwordSettingPhrases );
+    readPhrases( "passwordInvokingPhrases", &passwordInvokingPhrases );
+    
     eveName = 
         SettingsManager::getStringSetting( "eveName", "EVE" );
     
@@ -19514,4 +19548,3 @@ void startOutputAllFrames() {
 
 void stopOutputAllFrames() {
     }
-
