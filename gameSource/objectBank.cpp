@@ -380,6 +380,27 @@ static void setupObjectWritingStatus( ObjectRecord *inR ) {
 
 
 
+//2HOL additions for: password-protected doors
+//coded by analogue with setupObjectWritingStatus
+static void setupObjectPasswordStatus( ObjectRecord *inR ) {
+    inR->mayHaveMetadata = false;
+                
+    inR->hasInGamePassword = false;
+    inR->canHaveInGamePassword = false;
+                
+    if( strstr( inR->description, "&" ) != NULL ) {
+        if( strstr( inR->description, "&password-protected" ) != NULL ) {
+            inR->hasInGamePassword = true;
+            inR->mayHaveMetadata = true;
+            }
+        if( strstr( inR->description, "&password-assignable" ) != NULL ) {
+            inR->canHaveInGamePassword = true;
+            inR->mayHaveMetadata = true;
+            }
+        }
+    }
+    
+    
 static void setupObjectGlobalTriggers( ObjectRecord *inR ) {
     inR->isGlobalTriggerOn = false;
     inR->isGlobalTriggerOff = false;
@@ -580,6 +601,9 @@ float initObjectBankStep() {
 
                 setupObjectWritingStatus( r );
                 
+                //2HOL additions for: password-protected doors
+                setupObjectPasswordStatus( r );
+
                 setupObjectGlobalTriggers( r );
                 
                 setupObjectSpeechPipe( r );
@@ -3123,6 +3147,9 @@ int addObject( const char *inDescription,
 
 
     setupObjectWritingStatus( r );
+    
+    //2HOL additions for: password-protected doors
+    setupObjectPasswordStatus( r );
     
     setupObjectGlobalTriggers( r );
     

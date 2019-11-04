@@ -378,6 +378,7 @@ typedef struct ObjectRecord {
         int cornerVersionID;
         
         //2HOL addition for: password-protected doors
+        char canHaveInGamePassword;                                   
         char hasInGamePassword;
 
     } ObjectRecord;
