@@ -13192,7 +13192,48 @@ int main() {
                                     playerIndicesToSendUpdatesAbout.
                                         push_back( i );
                                     }                    
-                                }    
+                                }
+
+                            //2HOL additions for: password doors
+                            //case when player assigns password to the object he's holding
+                            //assigning a password coded by analogue with assigning a text to unwritten note,
+                            //in a section just above;
+                            //since password is a text string, just like writing on a note,
+                            //it is stored in metaData, no reason to allocate another entity for it
+                            if( nextPlayer->holdingID > 0 &&
+                                len < MAP_METADATA_LENGTH &&
+                                getObject(
+                                    nextPlayer->holdingID )->hasInGamePassword &&
+                                    //analogically, no password was assigned to an item so far
+                                    ! getMetadata( nextPlayer->holdingID,
+                                                   metaData ) ) {
+
+                                memset( metaData, 0, MAP_METADATA_LENGTH );
+                                memcpy( metaData, m.saidText, len + 1 );
+
+                                nextPlayer->holdingID = 
+                                    addMetadata( nextPlayer->holdingID,
+                                                 metaData );
+                                                 
+                                TransReord *passwordAssignmentTrans =
+                                    getMetaTrans( 0, nextPlayer->holdingID );
+                                    
+                                if( passwordAssignmentTrans != NULL &&
+                                    passwordAssignmentTrans->newTarget > 0 &&
+                                    getObject( passwordAssignmentTrans->newTarget )
+                                        ->hasInGamePassword ) {
+                                    //as with writing,
+                                    //transition from the object that can
+                                    //be potentially assigned
+                                    //to different object that already has
+                                    //password
+                                    handleHoldingChange(
+                                        nextPlayer,
+                                        passwordAssignmentTrans->newTarget );
+                                    playerIndicesToSendUpdatesAbout.
+                                        push_back( i );
+                                    }
+                                }
                             }
                         
                         makePlayerSay( nextPlayer, m.saidText );

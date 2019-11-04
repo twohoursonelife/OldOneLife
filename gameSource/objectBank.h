@@ -363,7 +363,8 @@ typedef struct ObjectRecord {
         
         char noHighlight;
         
-        //2HOL additions for: password doors
+        //2HOL addition for: password-protected doors
+        char canHaveInGamePassword;
         char hasInGamePassword;
         
     } ObjectRecord;
