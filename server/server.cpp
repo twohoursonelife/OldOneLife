@@ -4277,6 +4277,13 @@ static void makePlayerSay( LiveObject *inPlayer, char *inToSay ) {
         inPlayer->lastSay = NULL;
         }
     inPlayer->lastSay = stringDuplicate( inToSay );
+    
+    //2HOL additions for: password-protected objects
+    char isPassword = false;
+    char *sayingPassword = isPasswordSettingSay( inToSay );
+    if( sayingPassword != NULL ) {
+        inPlayer->saidPassword = sayingPassword;
+        }
                         
 
     char isCurse = false;
@@ -8478,32 +8485,12 @@ char isYouGivingSay( char *inSaidString ) {
     return false;
     }
 
-//2HOL additions for: password doors
+//2HOL additions for: password-protected objects
 char *isPasswordSettingSay( char *inSaidString ) {
+    return isNamingSay( inSaidString, &passwordSettingPhrases );
 
-    for( int i=0; i<passwordSettingPhrases.size(); i++ ) {
-        char *testString = passwordSettingPhrases.getElementDirect( i );
-        
-        char *hitLoc = strstr( inSaidString, testString );
-
-        if( hitLoc != NULL ) {
-            return true;
-            }
-        }
-    return false;
-    }
 char *isPasswordInvokingSay( char *inSaidString ) {
-
-    for( int i=0; i<passwordInvokingPhrases.size(); i++ ) {
-        char *testString = passwordInvokingPhrases.getElementDirect( i );
-        
-        char *hitLoc = strstr( inSaidString, testString );
-
-        if( hitLoc != NULL ) {
-            return true;
-            }
-        }
-    return false;
+    return isNamingSay( inSaidString, &passwordInvokingPhrases );
     }
     
 

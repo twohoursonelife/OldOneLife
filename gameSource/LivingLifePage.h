@@ -67,6 +67,9 @@ typedef struct LiveObject {
 
         char *relationName;
         
+        //2HOL additions for: password-protected objects
+        char *saidPassword;
+        
         int curseLevel;
         
         int excessCursePoints;
