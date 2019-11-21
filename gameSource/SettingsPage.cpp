@@ -128,7 +128,7 @@ SettingsPage::SettingsPage()
 	// gets int value from "nudeEnabled.ini"
 	// if not found defaults to 0 ( Not enabled )
 	mEnableNudeSetting =
-		SettingsManager::getIntSetting( "nudeEnabled", 0 );
+		SettingsManager::getIntSetting( "nudeEnabled", 1 );
 
 	mEnableNude.setToggled( mEnableNudeSetting );
 
@@ -418,9 +418,7 @@ void SettingsPage::draw( doublePair inViewCenter,
 	pos.y -= 2;
     
 	// WIP look into translate to see if it's a table or dynamic
-	//					  "Family Friendly"
-	//					  "Enable Nudity"
-	mainFont->drawString( "Family Friendly", pos, alignRight);
+	mainFont->drawString( "Enable Nudity", pos, alignRight);
 
 
     pos = mCursorModeSet->getPosition();
