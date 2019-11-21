@@ -5,6 +5,7 @@
 *.dep2
 *~
 *.orig
+.ccls*
 Makefile*
 
 callgrind.out*
@@ -28,3 +29,5 @@ server/lifeLog/
 server/categories
 server/objects
 server/transitions
+
+build/source/OneLife_*
