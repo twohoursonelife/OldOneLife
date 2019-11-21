@@ -28,7 +28,7 @@ SettingsPage::SettingsPage()
           mRedetectButton( mainFont, 153, 249, translate( "redetectButton" ) ),
           mFullscreenBox( 0, 128, 4 ),
           mBorderlessBox( 0, 168, 4 ),
-          mEnableNude( -450, 168, 4 ),
+          mEnableNude( -350, 168, 4 ),
           mMusicLoudnessSlider( mainFont, 0, 40, 4, 200, 30,
                                 0.0, 1.0, 
                                 translate( "musicLoudness" ) ),
