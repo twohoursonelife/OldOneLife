@@ -28,6 +28,7 @@ SettingsPage::SettingsPage()
           mRedetectButton( mainFont, 153, 249, translate( "redetectButton" ) ),
           mFullscreenBox( 0, 128, 4 ),
           mBorderlessBox( 0, 168, 4 ),
+          mEnableNude( -542, 168, 4 ),
           mMusicLoudnessSlider( mainFont, 0, 40, 4, 200, 30,
                                 0.0, 1.0, 
                                 translate( "musicLoudness" ) ),
@@ -87,6 +88,9 @@ SettingsPage::SettingsPage()
     addComponent( &mBorderlessBox );
     mBorderlessBox.addActionListener( this );
 
+    addComponent( &mEnableNude );
+    mEnableNude.addActionListener( this );
+
     addComponent( &mRestartButton );
     mRestartButton.addActionListener( this );
     
@@ -121,6 +125,12 @@ SettingsPage::SettingsPage()
 
     mBorderlessBox.setVisible( mOldFullscreenSetting );
 
+	// gets int value from "nudeEnabled.ini"
+	// if not found defaults to 0 ( Not enabled )
+	mEnableNudeSetting =
+		SettingsManager::getIntSetting( "nudeEnabled", 0 );
+
+	mEnableNude.setToggled( mEnableNudeSetting );
 
     mOldBorderlessSetting = 
         SettingsManager::getIntSetting( "borderless", 0 );
@@ -189,6 +199,12 @@ void SettingsPage::actionPerformed( GUIComponent *inTarget ) {
         
         mRestartButton.setVisible( mOldBorderlessSetting != newSetting );
         }
+	else if( inTarget == &mEnableNude ) {
+		// Gets the opposite of current state ie (!mEnableNude.state)
+		int newSetting = mEnableNude.getToggled();
+
+		SettingsManager::setSetting( "nudeEnabled", newSetting );
+		}
     else if( inTarget == &mRestartButton ||
              inTarget == &mRedetectButton ) {
         // always re-measure frame rate after relaunch
@@ -393,6 +409,16 @@ void SettingsPage::draw( doublePair inViewCenter,
     mainFont->drawString( translate( "targetFPS" ), pos, alignRight );
     pos.y += 44;
     mainFont->drawString( translate( "currentFPS" ), pos, alignRight );
+
+	
+	// Embrace the jank
+	pos = mEnableNude.getPosition();
+
+	pos.x -= 30;
+	pos.y -= 2;
+    
+	// WIP look into translate to see if it's a table or dynamic
+	mainFont->drawString( "Enable Nudity", pos, alignRight);
 
 
     pos = mCursorModeSet->getPosition();
