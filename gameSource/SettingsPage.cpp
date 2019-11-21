@@ -28,7 +28,7 @@ SettingsPage::SettingsPage()
           mRedetectButton( mainFont, 153, 249, translate( "redetectButton" ) ),
           mFullscreenBox( 0, 128, 4 ),
           mBorderlessBox( 0, 168, 4 ),
-          mEnableNude( -340, 148, 4 ),
+          mEnableNude( -335, 148, 4 ),
           mMusicLoudnessSlider( mainFont, 0, 40, 4, 200, 30,
                                 0.0, 1.0, 
                                 translate( "musicLoudness" ) ),
@@ -418,7 +418,9 @@ void SettingsPage::draw( doublePair inViewCenter,
 	pos.y -= 2;
     
 	// WIP look into translate to see if it's a table or dynamic
-	mainFont->drawString( "Enable Nudity", pos, alignRight);
+	//					  "Family Friendly"
+	//					  "Enable Nudity"
+	mainFont->drawString( "Family Friendly", pos, alignRight);
 
 
     pos = mCursorModeSet->getPosition();
