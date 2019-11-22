@@ -5,8 +5,7 @@
 
 #include "minorGems/util/SimpleVector.h"
 #include "minorGems/util/stringUtils.h"
-
-#include "minorGems/util/SettingManager.h"
+#include "minorGems/util/SettingsManager.h"
 
 #include "minorGems/util/random/JenkinsRandomSource.h"
 
