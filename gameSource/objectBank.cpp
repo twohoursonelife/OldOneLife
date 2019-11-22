@@ -3332,10 +3332,9 @@ HoldingPos drawObject( ObjectRecord *inObject, int inDrawBehindSlots,
         
 		// Checks if the ID is included in nudeIndices
 		if ( nudeIndices.getElementIndex(i) != -1 ) {
-			// WIP check nude setting!!,
-			// if( !NudeEnabled ) {
-			//		skipSprite = true;
-			//	}
+			if( !NudityEnabled ) {
+				skipSprite = true;
+			}
 		}
         
         if( !inHeldNotInPlaceYet &&
