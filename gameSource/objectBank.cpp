@@ -23,7 +23,7 @@
 
 #include "animationBank.h"
 
-
+#include "SettingManager"
 
 
 
@@ -3164,7 +3164,7 @@ void setDrawnObjectContained( char inContained ) {
     drawingContained = inContained;
     }
 
-
+int NudityEnabled = SettingManager::getIntSetting( "nudeEnabled", 1 );
 
 HoldingPos drawObject( ObjectRecord *inObject, int inDrawBehindSlots,
                        doublePair inPos,
@@ -3189,6 +3189,9 @@ HoldingPos drawObject( ObjectRecord *inObject, int inDrawBehindSlots,
 
     SimpleVector <int> legIndices;
     getAllLegIndices( inObject, inAge, &legIndices );
+
+	SimpleVector <int> nudeIndices;
+	getAllNudeIndices( inObject, inAge, &nudeIndices );
     
     
     int headIndex = getHeadIndex( inObject, inAge );
@@ -3239,7 +3242,7 @@ HoldingPos drawObject( ObjectRecord *inObject, int inDrawBehindSlots,
         }
     objectLayerCutoff = -1;
     
-
+	// Draw all sprites
     for( int i=0; i<limit; i++ ) {
         if( inObject->spriteSkipDrawing != NULL &&
             inObject->spriteSkipDrawing[i] ) {
@@ -3327,7 +3330,13 @@ HoldingPos drawObject( ObjectRecord *inObject, int inDrawBehindSlots,
 
         char skipSprite = false;
         
-        
+		// Checks if the ID is included in nudeIndices
+		if ( nudeIndices.getElementIndex(i) != -1 ) {
+			// WIP check nude setting!!,
+			// if( !NudeEnabled ) {
+			//		skipSprite = true;
+			//	}
+		}
         
         if( !inHeldNotInPlaceYet &&
             inHideClosestArm == 1 && 
@@ -4897,6 +4906,24 @@ void getAllLegIndices( ObjectRecord *inObject,
             }
         }
     }
+
+void getAllNudeIndices( ObjectRecord *inObject,
+						double inAge, SimpleVector<int> *outList ) {
+
+	// Nude Sprites range [592, 600]
+	int nudeLo = 592;
+	int nudeUp = 600;
+
+	for( int i = 0; i < inObject->numSprites; i++ ) {
+		// Object Sprite ID
+		int obSid = inObject->sprites[i];
+
+		if( obSid >= nudeLo && obSid <= nudeUp ) {
+			// Sprite is a nude part
+			outList.push_back(i);
+		}
+	}
+}
 
 
 

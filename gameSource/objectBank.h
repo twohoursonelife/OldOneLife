@@ -729,6 +729,12 @@ int getBackArmTopIndex( ObjectRecord *inObject, double inAge );
 void getAllLegIndices( ObjectRecord *inObject, double inAge, 
                        SimpleVector<int> *outList );
 
+// I know it doesn't need the inAge param, 
+// but it's cleaner this way. 
+// So im keeping it like that, feel free to change it.
+void getAllNudeIndices( ObjectRecord *inObject, double inAge, 
+                       SimpleVector<int> *outList );
+
 
 int getEyesIndex( ObjectRecord *inObject, double inAge );
 
