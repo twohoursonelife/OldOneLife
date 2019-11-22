@@ -3164,7 +3164,7 @@ void setDrawnObjectContained( char inContained ) {
     drawingContained = inContained;
     }
 
-int NudityEnabled = SettingManager::getIntSetting( "nudeEnabled", 1 );
+int NudityEnabled = SettingsManager::getIntSetting( "nudeEnabled", 1 );
 
 HoldingPos drawObject( ObjectRecord *inObject, int inDrawBehindSlots,
                        doublePair inPos,
@@ -4920,7 +4920,7 @@ void getAllNudeIndices( ObjectRecord *inObject,
 
 		if( obSid >= nudeLo && obSid <= nudeUp ) {
 			// Sprite is a nude part
-			outList.push_back(i);
+			outList->push_back(i);
 		}
 	}
 }
