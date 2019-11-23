@@ -32,6 +32,7 @@ static int mapSize;
 // sparse, so some entries are NULL
 static ObjectRecord **idMap;
 
+int NudityEnabled;
 
 static StringTree tree;
 
@@ -211,6 +212,9 @@ static char autoGenerateVariableObjects = false;
 int initObjectBankStart( char *outRebuildingCache, 
                          char inAutoGenerateUsedObjects,
                          char inAutoGenerateVariableObjects ) {
+
+	NudityEnabled = SettingsManager::getIntSetting( "nudeEnabled", 1 );
+
     maxID = 0;
 
     currentFile = 0;
@@ -3163,8 +3167,6 @@ static char drawingContained = false;
 void setDrawnObjectContained( char inContained ) {
     drawingContained = inContained;
     }
-
-int NudityEnabled = SettingsManager::getIntSetting( "nudeEnabled", 1 );
 
 HoldingPos drawObject( ObjectRecord *inObject, int inDrawBehindSlots,
                        doublePair inPos,
