@@ -2350,10 +2350,13 @@ HoldingPos drawObjectAnim( int inObjectID, int inDrawBehindSlots,
 		// Checks if drawing a nude sprite
 		// if yes, check if that is not allow
 		// and skip sprite if it isn't
-		if( obj->person )
-			if ( nudeIndices.getElementIndex(i) != -1 )
+		if( obj->person ) {
+			if ( nudeIndices.getElementIndex(i) != -1 ) {
 				if( !NudityEnabled ) {
 					skipSprite = true;
+				}
+			}
+		}
 
         if( !inHeldNotInPlaceYet && 
             inHideClosestArm == 1 && 
