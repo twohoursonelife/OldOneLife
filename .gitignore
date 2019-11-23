@@ -31,3 +31,4 @@ server/objects
 server/transitions
 
 build/source/OneLife_*
+!build/source/OneLife_Live_UnixSource*
