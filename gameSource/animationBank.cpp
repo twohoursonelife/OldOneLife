@@ -8,6 +8,7 @@
 #include "math.h"
 
 #include "minorGems/util/SimpleVector.h"
+#include "minorGems/util/SettingsManager.h"
 #include "minorGems/io/file/File.h"
 
 #include "minorGems/game/gameGraphics.h"
@@ -25,6 +26,7 @@ static int mapSize;
 // sparse, so some entries are NULL
 static AnimationRecord * **idMap;
 
+int NudityEnabled;
 
 // maps IDs to arbitrary number of extra animation records 
 // non-sparse
@@ -149,6 +151,8 @@ int initAnimationBankStart( char *outRebuildingCache ) {
         
         }
     
+
+	NudityEnabled = SettingsManager::getIntSetting( "nudeEnabled", 1 );
 
 
     maxID = 0;
@@ -1757,6 +1761,9 @@ HoldingPos drawObjectAnim( int inObjectID, int inDrawBehindSlots,
     SimpleVector <int> legIndices;
     getAllLegIndices( obj, inAge, &legIndices );
 
+	SimpleVector <int> nudeIndices;
+	getAllNudeIndices( inObject, inAge, &nudeIndices );
+
 
     // worn clothing never goes to ground animation
     // switches between moving, when the wearer is moving, and held,
@@ -2339,7 +2346,14 @@ HoldingPos drawObjectAnim( int inObjectID, int inDrawBehindSlots,
 
 
         char skipSprite = false;
-        
+
+		// Checks if drawing a nude sprite
+		// if yes, check if that is not allow
+		// and skip sprite if it isn't
+		if( obj->person )
+			if ( nudeIndices.getElementIndex(i) != -1 )
+				if( !NudityEnabled ) {
+					skipSprite = true;
 
         if( !inHeldNotInPlaceYet && 
             inHideClosestArm == 1 && 

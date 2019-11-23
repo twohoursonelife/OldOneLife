@@ -5,7 +5,6 @@
 
 #include "minorGems/util/SimpleVector.h"
 #include "minorGems/util/stringUtils.h"
-#include "minorGems/util/SettingsManager.h"
 
 #include "minorGems/util/random/JenkinsRandomSource.h"
 
@@ -32,10 +31,7 @@ static int mapSize;
 // sparse, so some entries are NULL
 static ObjectRecord **idMap;
 
-int NudityEnabled;
-
 static StringTree tree;
-
 
 // track objects that are marked with the person flag
 static SimpleVector<int> personObjectIDs;
@@ -213,12 +209,9 @@ int initObjectBankStart( char *outRebuildingCache,
                          char inAutoGenerateUsedObjects,
                          char inAutoGenerateVariableObjects ) {
 
-	NudityEnabled = SettingsManager::getIntSetting( "nudeEnabled", 1 );
-
     maxID = 0;
 
     currentFile = 0;
-    
 
     cache = initFolderCache( "objects", outRebuildingCache );
 
@@ -3192,10 +3185,7 @@ HoldingPos drawObject( ObjectRecord *inObject, int inDrawBehindSlots,
     SimpleVector <int> legIndices;
     getAllLegIndices( inObject, inAge, &legIndices );
 
-	SimpleVector <int> nudeIndices;
-	getAllNudeIndices( inObject, inAge, &nudeIndices );
-    
-    
+
     int headIndex = getHeadIndex( inObject, inAge );
     int bodyIndex = getBodyIndex( inObject, inAge );
     int backFootIndex = getBackFootIndex( inObject, inAge );
@@ -3331,14 +3321,7 @@ HoldingPos drawObject( ObjectRecord *inObject, int inDrawBehindSlots,
         doublePair pos = add( spritePos, inPos );
 
         char skipSprite = false;
-        
-		// Checks if the ID is included in nudeIndices
-		if ( nudeIndices.getElementIndex(i) != -1 ) {
-			if( !NudityEnabled ) {
-				skipSprite = true;
-			}
-		}
-        
+
         if( !inHeldNotInPlaceYet &&
             inHideClosestArm == 1 && 
             frontArmIndices.getElementIndex( i ) != -1 ) {
