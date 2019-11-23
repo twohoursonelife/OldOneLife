@@ -1762,7 +1762,7 @@ HoldingPos drawObjectAnim( int inObjectID, int inDrawBehindSlots,
     getAllLegIndices( obj, inAge, &legIndices );
 
 	SimpleVector <int> nudeIndices;
-	getAllNudeIndices( inObject, inAge, &nudeIndices );
+	getAllNudeIndices( obj, inAge, &nudeIndices );
 
 
     // worn clothing never goes to ground animation
