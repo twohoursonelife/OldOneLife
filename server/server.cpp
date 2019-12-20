@@ -8463,8 +8463,6 @@ char *isNamedGivingSay( char *inSaidString ) {
     return isReverseNamingSay( inSaidString, &namedGivingPhrases );
     }
 
-
-
 char isYouGivingSay( char *inSaidString ) {
     if( inSaidString[0] == ':' ) {
         // first : indicates reading a written phrase.
@@ -13254,16 +13252,16 @@ int main() {
                                     }                    
                                 }
 
-                            //2HOL additions for: password doors
-                            //case when player assigns password to the object he's holding
-                            //assigning a password coded by analogue with assigning a text to unwritten note,
+                            //2HOL additions for: password doors;
+                            //case when player assigns password to the object he's holding;
+                            //assigning a password is coded by analogue with assigning a text to unwritten note,
                             //in a section just above;
                             //since password is a text string, just like writing on a note,
                             //it is stored in metaData, no reason to allocate another entity for it
                             if( nextPlayer->holdingID > 0 &&
                                 len < MAP_METADATA_LENGTH &&
                                 getObject(
-                                    nextPlayer->holdingID )->hasInGamePassword &&
+                                    nextPlayer->holdingID )->canHaveInGamePassword &&
                                     //analogically, no password was assigned to an item so far
                                     ! getMetadata( nextPlayer->holdingID,
                                                    metaData ) ) {
@@ -13428,6 +13426,8 @@ int main() {
                             
                             char wrongSide = false;
                             char ownershipBlocked = false;
+                            //2HOL additions for: password-protected objects
+                            char blockedByPassword = false;
                             
                             if( target != 0 ) {
                                 ObjectRecord *targetObj = getObject( target );
@@ -13450,13 +13450,29 @@ int main() {
                                     ownershipBlocked = 
                                         ! isOwned( nextPlayer, m.x, m.y );
                                     }
-                                }
+                                //2HOL additions for: password-protected objects
+                                //the check to block the transition for the object which password was not guessed correctly
+                                if( targetObj->hasInGamePassword ) {
+                                    char metaData[ MAP_METADATA_LENGTH ];
+                                    char found = getMetadata( nextPlayer->holdingID, 
+                                      (unsigned char*)metaData );
+                                      
+                                    if( found ) {
+                                        char *extractedPassword = autoSprintf( ":%s", metaData );
+                                        blockedByPassword = ! ( nextPlayer->saidPassword == extractedPassword )
+                                        delet [] extractedPassword;
+                                    }
+                                    else {
+                                        blockedByPassword = true;
+                                    }
+                                }                      
                             
 
                             
-                            if( wrongSide || ownershipBlocked ) {
+                            if( wrongSide || ownershipBlocked || blockedByPassword ) {
                                 // ignore action from wrong side
                                 // or that players don't own
+                                // 2HOL: or for which the password was not guessed                                                                                  
                                 }
                             else if( target != 0 ) {
                                 ObjectRecord *targetObj = getObject( target );
