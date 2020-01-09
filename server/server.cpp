@@ -414,6 +414,9 @@ typedef struct LiveObject {
         
 
         char *lastSay;
+        
+        //2HOL additions for: password-protected objects
+        char *saidPassword;
 
         CurseStatus curseStatus;
         
@@ -4269,6 +4272,9 @@ SimpleVector<ChangePosition> newLocationSpeechPos;
 
 char *isCurseNamingSay( char *inSaidString );
 
+//2HOL additions for: password doors
+char *isPasswordSettingSay( char *inSaidString );
+char *isPasswordInvokingSay( char *inSaidString );
 
 static void makePlayerSay( LiveObject *inPlayer, char *inToSay ) {    
                         
@@ -13273,7 +13279,7 @@ int main() {
                                     addMetadata( nextPlayer->holdingID,
                                                  metaData );
                                                  
-                                TransReord *passwordAssignmentTrans =
+                                TransRecord *passwordAssignmentTrans =
                                     getMetaTrans( 0, nextPlayer->holdingID );
                                     
                                 if( passwordAssignmentTrans != NULL &&
@@ -13459,20 +13465,20 @@ int main() {
                                       
                                     if( found ) {
                                         char *extractedPassword = autoSprintf( ":%s", metaData );
-                                        blockedByPassword = ! ( nextPlayer->saidPassword == extractedPassword )
-                                        delet [] extractedPassword;
+                                        blockedByPassword = ! ( nextPlayer->saidPassword == extractedPassword );
+                                        delete [] extractedPassword;
                                     }
                                     else {
                                         blockedByPassword = true;
                                     }
-                                }                      
-                            
+                                }
+                            }
 
                             
                             if( wrongSide || ownershipBlocked || blockedByPassword ) {
                                 // ignore action from wrong side
                                 // or that players don't own
-                                // 2HOL: or for which the password was not guessed                                                                                  
+                                // 2HOL: or for which the password was not guessed
                                 }
                             else if( target != 0 ) {
                                 ObjectRecord *targetObj = getObject( target );
