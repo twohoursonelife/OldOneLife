@@ -37,7 +37,6 @@
 
 #define NUM_YUM_SLIPS 4
 
-
 typedef struct LiveObject {
         int id;
 
@@ -66,9 +65,6 @@ typedef struct LiveObject {
         char *name;
 
         char *relationName;
-        
-        //2HOL additions for: password-protected objects
-        char *saidPassword;
         
         int curseLevel;
         
