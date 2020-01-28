@@ -416,7 +416,11 @@ typedef struct LiveObject {
         char *lastSay;
         
         //2HOL additions for: password-protected objects
+        
+        //the phrase that player carries as "a secret word"
         char *saidPassword;
+        //the phrase that player assigns to an object
+        char *assignedPassword;
 
         CurseStatus curseStatus;
         
@@ -4285,10 +4289,19 @@ static void makePlayerSay( LiveObject *inPlayer, char *inToSay ) {
     inPlayer->lastSay = stringDuplicate( inToSay );
     
     //2HOL additions for: password-protected objects
-    char isPassword = false;
-    char *sayingPassword = isPasswordSettingSay( inToSay );
+    char *sayingPassword = isPasswordInvokingSay( inToSay );
     if( sayingPassword != NULL ) {
-        inPlayer->saidPassword = sayingPassword;
+        AppLog::infoF( "2HOL DEBUG: Player says password. New password assigned to a player." );
+        inPlayer->saidPassword = stringDuplicate( sayingPassword );
+        AppLog::infoF( "2HOL DEBUG: Player's password is %s", inPlayer->saidPassword );
+        }
+    
+    //2HOL additions for: password-protected objects
+    char *assigningPassword = isPasswordSettingSay( inToSay );
+    if( assigningPassword != NULL ) {
+        AppLog::infoF( "2HOL DEBUG: Player sets new password for future assignment." );
+        inPlayer->assignedPassword = stringDuplicate( assigningPassword );
+        AppLog::infoF( "2HOL DEBUG: Password for future assignment password is %s", inPlayer->assignedPassword );
         }
                         
 
@@ -8492,7 +8505,7 @@ char isYouGivingSay( char *inSaidString ) {
 //2HOL additions for: password-protected objects
 char *isPasswordSettingSay( char *inSaidString ) {
     return isNamingSay( inSaidString, &passwordSettingPhrases );
-
+    }
 char *isPasswordInvokingSay( char *inSaidString ) {
     return isNamingSay( inSaidString, &passwordInvokingPhrases );
     }
@@ -13257,47 +13270,6 @@ int main() {
                                         push_back( i );
                                     }                    
                                 }
-
-                            //2HOL additions for: password doors;
-                            //case when player assigns password to the object he's holding;
-                            //assigning a password is coded by analogue with assigning a text to unwritten note,
-                            //in a section just above;
-                            //since password is a text string, just like writing on a note,
-                            //it is stored in metaData, no reason to allocate another entity for it
-                            if( nextPlayer->holdingID > 0 &&
-                                len < MAP_METADATA_LENGTH &&
-                                getObject(
-                                    nextPlayer->holdingID )->canHaveInGamePassword &&
-                                    //analogically, no password was assigned to an item so far
-                                    ! getMetadata( nextPlayer->holdingID,
-                                                   metaData ) ) {
-
-                                memset( metaData, 0, MAP_METADATA_LENGTH );
-                                memcpy( metaData, m.saidText, len + 1 );
-
-                                nextPlayer->holdingID = 
-                                    addMetadata( nextPlayer->holdingID,
-                                                 metaData );
-                                                 
-                                TransRecord *passwordAssignmentTrans =
-                                    getMetaTrans( 0, nextPlayer->holdingID );
-                                    
-                                if( passwordAssignmentTrans != NULL &&
-                                    passwordAssignmentTrans->newTarget > 0 &&
-                                    getObject( passwordAssignmentTrans->newTarget )
-                                        ->hasInGamePassword ) {
-                                    //as with writing,
-                                    //transition from the object that can
-                                    //be potentially assigned
-                                    //to different object that already has
-                                    //password
-                                    handleHoldingChange(
-                                        nextPlayer,
-                                        passwordAssignmentTrans->newTarget );
-                                    playerIndicesToSendUpdatesAbout.
-                                        push_back( i );
-                                    }
-                                }
                             }
                         
                         makePlayerSay( nextPlayer, m.saidText );
@@ -13458,18 +13430,24 @@ int main() {
                                     }
                                 //2HOL additions for: password-protected objects
                                 //the check to block the transition for the object which password was not guessed correctly
-                                if( targetObj->hasInGamePassword ) {
-                                    char metaData[ MAP_METADATA_LENGTH ];
-                                    char found = getMetadata( nextPlayer->holdingID, 
-                                      (unsigned char*)metaData );
-                                      
-                                    if( found ) {
-                                        char *extractedPassword = autoSprintf( ":%s", metaData );
-                                        blockedByPassword = ! ( nextPlayer->saidPassword == extractedPassword );
-                                        delete [] extractedPassword;
-                                    }
-                                    else {
-                                        blockedByPassword = true;
+                                if( targetObj->canHaveInGamePassword ) {
+                                    AppLog::infoF( "2HOL DEBUG: attempt to interact with an object potentially having password" );
+                                    AppLog::infoF( "2HOL DEBUG: there are %i protected tiles in the world", targetObj->IndX.size() );
+                                    AppLog::infoF( "2HOL DEBUG: interaction location, x: %i", m.x );
+                                    AppLog::infoF( "2HOL DEBUG: interaction location, y: %i", m.y );
+                                    for( int i=0; i<targetObj->IndX.size(); i++ ) {
+                                        AppLog::infoF( "2HOL DEBUG: comparison iteration #%i", i );
+                                        AppLog::infoF( "2HOL DEBUG: protected tile #%i, password: %s", i, targetObj->IndPass.getElementDirect(i) );
+                                        AppLog::infoF( "2HOL DEBUG: player's password: %s", nextPlayer->saidPassword );
+                                        char *pass = strstr( nextPlayer->saidPassword, targetObj->IndPass.getElementDirect(i) );
+                                        if ( pass ) { AppLog::infoF( "2HOL DEBUG: passwords match." ); }
+                                        else { AppLog::infoF( "2HOL DEBUG: passwords do not match." ); }
+                                        if ( m.x == targetObj->IndX.getElementDirect(i) &&
+                                             m.y == targetObj->IndY.getElementDirect(i)  ) {
+                                                 if ( pass != NULL ) { blockedByPassword = false; }
+                                                 else { blockedByPassword = true; }
+                                                 break;                                                 
+                                            }
                                     }
                                 }
                             }
@@ -13479,6 +13457,9 @@ int main() {
                                 // ignore action from wrong side
                                 // or that players don't own
                                 // 2HOL: or for which the password was not guessed
+                                if ( blockedByPassword ) {
+                                     AppLog::infoF( "2HOL DEBUG: attempt to interact was blocked: wrong password." );
+                                    }
                                 }
                             else if( target != 0 ) {
                                 ObjectRecord *targetObj = getObject( target );
@@ -13838,7 +13819,33 @@ int main() {
                                             ownedPositions.push_back( newPos );
                                         newOwnerPos.push_back( newPos );
                                         }
-                                
+                                        
+                                    //2HOL additions for: password-protected objects
+                                    //memorize properties of the source during the transition from object that can get password
+                                    //to object that can hold (and check if player knows it) the password
+                                    if ( getObject( oldHolding )->canGetInGamePassword &&
+                                         getObject( nextPlayer->holdingID )->canHaveInGamePassword ) {
+                                            getObject( nextPlayer->holdingID )->passID = getObject( oldHolding )->passID;
+                                            getObject( nextPlayer->holdingID )->hasInGamePassword = true;
+                                            AppLog::infoF( "2HOL DEBUG: PassID after transition: %i", getObject( nextPlayer->holdingID )->passID);                                            
+
+                                            char *found = nextPlayer->assignedPassword;
+                                            
+                                            if ( found ) {
+                                               
+                                                getObject( nextPlayer->holdingID )->IndX.push_back( m.x );
+                                                getObject( nextPlayer->holdingID )->IndY.push_back( m.y );
+                                                getObject( nextPlayer->holdingID )->IndPass.push_back( found );
+                                                
+                                                AppLog::infoF( "2HOL DEBUG: saved password-protected position, x = %i", getObject( nextPlayer->holdingID )->IndX.getElementDirect(getObject( nextPlayer->holdingID )->IndX.size()-1));
+                                                AppLog::infoF( "2HOL DEBUG: saved password-protected position, y = %i", getObject( nextPlayer->holdingID )->IndY.getElementDirect(getObject( nextPlayer->holdingID )->IndY.size()-1));
+                                                AppLog::infoF( "2HOL DEBUG: saved password: %s", getObject( nextPlayer->holdingID )->IndPass.getElementDirect(getObject( nextPlayer->holdingID )->IndPass.size()-1));
+                                            }
+                                            else {
+                                                AppLog::infoF( "2HOL DEBUG: object has no metadata to copy.");
+                                            }
+                                            
+                                        }   
 
                                     if( r->actor == 0 &&
                                         target > 0 && r->newTarget > 0 &&
@@ -15514,7 +15521,8 @@ int main() {
                     }
                 }
             }
-
+            
+ 
         
         // process pending KILL actions
         for( int i=0; i<activeKillStates.size(); i++ ) {
@@ -16998,9 +17006,9 @@ int main() {
             
             char *updateListString = updateList.getElementString();
             
-            AppLog::infoF( "Need to send updates about these %d players: %s",
-                           playerIndicesToSendUpdatesAbout.size(),
-                           updateListString );
+            //AppLog::infoF( "Need to send updates about these %d players: %s",
+            //               playerIndicesToSendUpdatesAbout.size(),
+            //               updateListString );
             delete [] updateListString;
             }
         
@@ -17286,9 +17294,9 @@ int main() {
             
             char *updateListString = trueUpdateList.getElementString();
             
-            AppLog::infoF( "Sending updates about these %d players: %s",
-                           newUpdatePlayerIDs.size(),
-                           updateListString );
+            //AppLog::infoF( "Sending updates about these %d players: %s",
+            //               newUpdatePlayerIDs.size(),
+            //               updateListString );
             delete [] updateListString;
             }
         
