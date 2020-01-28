@@ -23,7 +23,7 @@
 
 #include "animationBank.h"
 
-
+#include "minorGems/util/log/AppLog.h"
 
 
 
@@ -381,27 +381,6 @@ static void setupObjectWritingStatus( ObjectRecord *inR ) {
 
 
 
-//2HOL additions for: password-protected doors
-//coded by analogue with setupObjectWritingStatus
-static void setupObjectPasswordStatus( ObjectRecord *inR ) {
-    inR->mayHaveMetadata = false;
-                
-    inR->hasInGamePassword = false;
-    inR->canHaveInGamePassword = false;
-                
-    if( strstr( inR->description, "&" ) != NULL ) {
-        if( strstr( inR->description, "&password-protected" ) != NULL ) {
-            inR->hasInGamePassword = true;
-            inR->mayHaveMetadata = true;
-            }
-        if( strstr( inR->description, "&password-assignable" ) != NULL ) {
-            inR->canHaveInGamePassword = true;
-            inR->mayHaveMetadata = true;
-            }
-        }
-    }
-    
-    
 static void setupObjectGlobalTriggers( ObjectRecord *inR ) {
     inR->isGlobalTriggerOn = false;
     inR->isGlobalTriggerOff = false;
@@ -493,14 +472,22 @@ static void setupOwned( ObjectRecord *inR ) {
         }
     }
 
-
-//2HOL additions for: password doors
-static void setupInGamePassword( ObjectRecord *inR ) {
-    inR->hasInGamePassword = false;
+//2HOL additions for: password-protected doors
+//coded by analogue with setupObjectWritingStatus
+static void setupObjectPasswordStatus( ObjectRecord *inR ) {
     
-    char *passPos = strstr( inR->description, "+password" );
-    if( passPos != NULL ) {
-        inR->hasInGamePassword = true;
+    inR->canGetInGamePassword = false;
+    inR->hasInGamePassword = false;
+    inR->canHaveInGamePassword = false;
+    inR->passID = 0;
+                
+    if( strstr( inR->description, "+" ) != NULL ) {
+        if( strstr( inR->description, "+password-protected" ) != NULL ) {
+            inR->canHaveInGamePassword = true;
+            }
+        if( strstr( inR->description, "+password-assignable" ) != NULL ) {
+            inR->canGetInGamePassword = true;
+            }
         }
     }
 
@@ -5436,7 +5423,7 @@ char bothSameUseParent( int inAObjectID, int inBObjectID ) {
 
 
 
-int hideIDForClient( int inObjectID ) {    
+int hideIDForClient( int inObjectID ) {   
     if( inObjectID > 0 ) {
         ObjectRecord *o = getObject( inObjectID );
         if( o->isVariableDummy && o->isVariableHidden ) {

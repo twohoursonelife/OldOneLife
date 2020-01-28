@@ -37,6 +37,9 @@
 
 #define NUM_YUM_SLIPS 4
 
+//2HOL commentary: struct LiveObject from LivingLifePage.h shouldn't be confused
+//with struct LiveObject used in .\server\server.cpp, which is defined in the same file,
+//i. e. in server.cpp, not in .h file.
 typedef struct LiveObject {
         int id;
 
