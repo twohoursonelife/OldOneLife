@@ -5,6 +5,8 @@
 #include <math.h>
 #include <assert.h>
 #include <float.h>
+#include <random>
+#include <string>
 
 
 #include "minorGems/util/stringUtils.h"
@@ -374,6 +376,7 @@ typedef struct FreshConnection {
         double connectionStartTimeSeconds;
 
         char *email;
+        unsigned int hashedSpawnSeed;
         
         int tutorialNumber;
         CurseStatus curseStatus;
@@ -5573,6 +5576,7 @@ int processLoggedInPlayer( char inAllowReconnect,
                            Socket *inSock,
                            SimpleVector<char> *inSockBuffer,
                            char *inEmail,
+                           unsigned int hashedSpawnSeed,
                            int inTutorialNumber,
                            CurseStatus inCurseStatus,
                            // set to -2 to force Eve
@@ -6068,7 +6072,10 @@ int processLoggedInPlayer( char inAllowReconnect,
         
         }
     
-
+    if( hashedSpawnSeed != 0 && SettingsManager::getIntSetting( "forceEveOnSeededSpawn", 0 ) ) {
+        parentChoices.deleteAll();
+        forceParentChoices = true;
+        }
 
 
     if( inCurseStatus.curseLevel <= 0 &&
@@ -6593,6 +6600,23 @@ int processLoggedInPlayer( char inAllowReconnect,
             startY = 
                 SettingsManager::getIntSetting( "forceEveLocationY", 0 );
             }
+
+        if( hashedSpawnSeed != 0 ) {
+            // Get bounding box from setting, default to 10k
+            int seedSpawnBoundingBox =
+                SettingsManager::getIntSetting( "seedSpawnBoundingBox", 10000 );
+
+            std::seed_seq ssq { hashedSpawnSeed };
+            std::mt19937_64 mt { ssq };
+
+            std::uniform_int_distribution<int> dist( -seedSpawnBoundingBox/2, seedSpawnBoundingBox/2 );
+
+            startX = dist(mt);
+            startY = dist(mt);
+
+            AppLog::infoF( "Player %s seed evaluated to (%d,%d)",
+                    newObject.email, startX, startY );
+            }
         
         
         newObject.xs = startX;
@@ -7061,6 +7085,7 @@ static void processWaitingTwinConnection( FreshConnection inConnection ) {
                                            inConnection.sock,
                                            inConnection.sockBuffer,
                                            inConnection.email,
+                                           inConnection.hashedSpawnSeed,
                                            inConnection.tutorialNumber,
                                            anyTwinCurseLevel );
         tempTwinEmails.deleteAll();
@@ -7132,6 +7157,7 @@ static void processWaitingTwinConnection( FreshConnection inConnection ) {
                                    nextConnection->sock,
                                    nextConnection->sockBuffer,
                                    nextConnection->email,
+                                   nextConnection->hashedSpawnSeed,
                                    // ignore tutorial number of all but
                                    // first player
                                    0,
@@ -11004,6 +11030,7 @@ int main() {
                             nextConnection->sock,
                             nextConnection->sockBuffer,
                             nextConnection->email,
+                            nextConnection->hashedSpawnSeed,
                             nextConnection->tutorialNumber,
                             nextConnection->curseStatus );
                         }
@@ -11062,6 +11089,53 @@ int main() {
                             nextConnection->email = 
                                 stringDuplicate( 
                                     tokens->getElementDirect( 1 ) );
+
+
+                            // If email contains string delimiter
+                            // Set nextConnection's hashedSpawnSeed to hash of seed
+                            // then cut off seed and set email to onlyEmail
+                            const unsigned int minSeedLen = 1;
+                            const char seedDelim = '|';
+
+
+                            std::string emailAndSeed { tokens->getElementDirect( 1 ) };
+
+                            size_t seedDelimPos = emailAndSeed.find( seedDelim );
+
+                            if( seedDelimPos != std::string::npos ) {
+                                unsigned int seedLen = emailAndSeed.length() - seedDelimPos;
+
+                                // Make sure there is at least one char after delim
+                                if( seedLen > minSeedLen ) {
+                                    // Get the substr from one after the seed delim
+                                    std::string seed { emailAndSeed.substr( seedDelimPos + 1 ) };
+
+                                    // Hash seed to 4 byte int
+                                    const int hashConst = 111337;
+                                    unsigned int hash = 0;
+                                    for( char c : seed ) {
+                                        hash ^= c;
+                                        hash *= hashConst;
+                                    }
+
+                                    nextConnection->hashedSpawnSeed = hash;
+                                }
+
+                                // Remove seed from email
+                                if( seedDelimPos == 0) {
+                                    // There was only a seed not email
+                                    nextConnection->email = stringDuplicate( "blank_email" );
+                                } else {
+                                    /* unsigned int onlyEmailLen = emailLen - seedLen; */
+                                    std::string onlyEmail { emailAndSeed.substr( 0, seedDelimPos ) };
+
+                                    delete[] nextConnection->email;
+                                    nextConnection->email = stringDuplicate( onlyEmail.c_str() );
+                                }
+                            } else {
+                                nextConnection->hashedSpawnSeed = 0;
+                            }
+
                             char *pwHash = tokens->getElementDirect( 2 );
                             char *keyHash = tokens->getElementDirect( 3 );
                             
@@ -11198,6 +11272,7 @@ int main() {
                                             nextConnection->sock,
                                             nextConnection->sockBuffer,
                                             nextConnection->email,
+                                            nextConnection->hashedSpawnSeed,
                                             nextConnection->tutorialNumber,
                                             nextConnection->curseStatus );
                                         }

@@ -35,6 +35,7 @@ class SettingsPage : public GamePage, public ActionListener {
         
         int mOldFullscreenSetting;
         int mOldBorderlessSetting;
+        int mEnableNudeSetting;
         
         SoundUsage mTestSound;
 
@@ -54,17 +55,12 @@ class SettingsPage : public GamePage, public ActionListener {
         ValueSlider mSoundEffectsLoudnessSlider;
 
 
-        CheckboxButton mUseCustomServerBox;
-        
-        TextField mCustomServerAddressField;
-        TextField mCustomServerPortField;
-
-        TextButton mCopyButton;
-        TextButton mPasteButton;
-
+        TextField mSpawnSeed;
 
         RadioButtonSet *mCursorModeSet;
         
         ValueSlider mCursorScaleSlider;
+        
+        CheckboxButton mEnableNudeBox;
 
     };
