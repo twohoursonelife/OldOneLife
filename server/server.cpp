@@ -13842,10 +13842,29 @@ int main() {
                                         newOwnerPos.push_back( newPos );
                                         }
                                     
-                                    AppLog::infoF( "    2HOL DEBUG: transition sequence, step 9: reached password-checking segment!" );                                    
+                                    AppLog::infoF( "    2HOL DEBUG: transition sequence, step 9: reached password-checking segment!" );
                                     //2HOL additions for: password-protected objects
                                     //memorize properties of the SOURCE during the transition from object that can get password
                                     //to object that can hold (and check if player knows it) the password
+                                    AppLog::infoF( "    2HOL DEBUG: deciding now: should I assign a password to the result of this transition?" );
+                                    AppLog::infoF( "    2HOL DEBUG: deciding 1/4: player is holding something?" );
+                                    if ( oldHolding > 0 ) {
+                                        AppLog::infoF( "        YES" );
+                                        AppLog::infoF( "    2HOL DEBUG: deciding 2/4: will be there a thing as a result of this transition?" );
+                                        if ( r->newTarget > 0 ) {
+                                            AppLog::infoF( "        YES" );
+                                            AppLog::infoF( "    2HOL DEBUG: deciding 3/4: is the thing that player is holding password-assignable?" );
+                                            if ( getObject( oldHolding )->canGetInGamePassword ) {
+                                                AppLog::infoF( "        YES" );
+                                                AppLog::infoF( "    2HOL DEBUG: deciding 4/4: is the thing that will be produced capable of holding the password?" );
+                                                if ( getObject( r->newTarget )->canHaveInGamePassword ) { AppLog::infoF( "        YES - TIME TO APPLY SOME PASSWORDS!" ); }
+                                                else { AppLog::infoF( "        NO - no password for you today." ); }
+                                                }
+                                            else { AppLog::infoF( "        NO - no password for you today." ); }
+                                            }
+                                        else { AppLog::infoF( "        NO - no password for you today." ); }
+                                        }
+                                    else { AppLog::infoF( "        NO - no password for you today." ); }
                                     if ( ( oldHolding > 0) && ( r->newTarget > 0 ) && //( getObject( oldHolding )->passID > 0 ) &&
                                          getObject( oldHolding )->canGetInGamePassword &&
                                          getObject( r->newTarget )->canHaveInGamePassword ) {                                           
