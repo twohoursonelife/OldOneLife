@@ -13870,7 +13870,8 @@ int main() {
                                          getObject( r->newTarget )->canHaveInGamePassword ) {                                           
 
                                             AppLog::infoF( "    2HOL DEBUG: retrieving player's password." );
-                                            char *found = nextPlayer->assignedPassword;
+                                            char found = nextPlayer->assignedPassword;
+                                            AppLog::infoF( "    2HOL DEBUG: created temporary copy." );
                                             
                                             if ( found == NULL ) {AppLog::infoF( "    2HOL DEBUG: password returned NULL." );}
                                             if ( found[0] == '\0' ) {AppLog::infoF( "    2HOL DEBUG: password string is empty." );}
