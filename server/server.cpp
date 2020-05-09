@@ -13333,7 +13333,7 @@ int main() {
                         }
                     else if( m.type == USE ) {
                         
-                        AppLog::infoF( "    2HOL DEBUG: action of USE type started to be processed." );
+                          //AppLog::infoF( "    2HOL DEBUG: action of USE type started to be processed." );
                         
                         // send update even if action fails (to let them
                         // know that action is over)
@@ -13350,7 +13350,7 @@ int main() {
                         // change below
                         int heldGravePlayerID = nextPlayer->heldGravePlayerID;
                         
-                        AppLog::infoF( "    2HOL DEBUG: checking if the interaction distance is appropriate." );
+                          //AppLog::infoF( "    2HOL DEBUG: checking if the interaction distance is appropriate." );
                         char distanceUseAllowed = false;
                         
                         if( nextPlayer->holdingID > 0 ) {
@@ -13401,12 +13401,12 @@ int main() {
                             // can only use on targets next to us for now,
                             // no diags
                             
-                            AppLog::infoF( "    2HOL DEBUG: determining the target of interaction." );
+                              //AppLog::infoF( "    2HOL DEBUG: determining the target of interaction." );
                             int target = getMapObject( m.x, m.y );
                             
                             int oldHolding = nextPlayer->holdingID;
                             
-                            AppLog::infoF( "    2HOL DEBUG: checking if the side, the ownership and the possible password are appropriate." );
+                              //AppLog::infoF( "    2HOL DEBUG: checking if the side, the ownership and the possible password are appropriate." );
                             char wrongSide = false;
                             char ownershipBlocked = false;
                             //2HOL additions for: password-protected objects
@@ -13476,7 +13476,7 @@ int main() {
                                 }
                             else if( target != 0 ) {
                                 
-                                AppLog::infoF( "    2HOL DEBUG: it seems there are no reasons to block the current transition." );
+                                  //AppLog::infoF( "    2HOL DEBUG: it seems there are no reasons to block the current transition." );
 
                                 ObjectRecord *targetObj = getObject( target );
                                 
@@ -13485,7 +13485,7 @@ int main() {
                                 TransRecord *r = NULL;
                                 char defaultTrans = false;
                                 
-                                AppLog::infoF( "    2HOL DEBUG: transition sequence, step 1: nextPlayer->numContained check." );
+                                  //AppLog::infoF( "    2HOL DEBUG: transition sequence, step 1: nextPlayer->numContained check." );
                                 char heldCanBeUsed = false;
                                 char containmentTransfer = false;
                                 if( // if what we're holding contains
@@ -13536,7 +13536,7 @@ int main() {
                                     }
                                 
                                 
-                                AppLog::infoF( "    2HOL DEBUG: transition sequence, step 2: heldCanBeUsed check." );
+                                  //AppLog::infoF( "    2HOL DEBUG: transition sequence, step 2: heldCanBeUsed check." );
                                 if( nextPlayer->holdingID >= 0 &&
                                     heldCanBeUsed ) {
                                     // negative holding is ID of baby
@@ -13546,7 +13546,7 @@ int main() {
                                                   target );
                                     }
 
-                                AppLog::infoF( "    2HOL DEBUG: transition sequence, step 3: getPTrans resulted in NULL? check." );                                    
+                                  //AppLog::infoF( "    2HOL DEBUG: transition sequence, step 3: getPTrans resulted in NULL? check." );                                    
                                 if( r == NULL && 
                                     ( nextPlayer->holdingID != 0 || 
                                       targetObj->permanent ) &&
@@ -13594,7 +13594,7 @@ int main() {
                                     }
                                 
 
-                                AppLog::infoF( "    2HOL DEBUG: transition sequence, step 4: is target going to change?" );
+                                  //AppLog::infoF( "    2HOL DEBUG: transition sequence, step 4: is target going to change?" );
                                 if( r != NULL &&
                                     r->newTarget > 0 &&
                                     r->newTarget != target ) {
@@ -13651,7 +13651,7 @@ int main() {
                                     }
 
 
-                                AppLog::infoF( "    2HOL DEBUG: transition sequence, step 6: containmentTransfer check." );
+                                  //AppLog::infoF( "    2HOL DEBUG: transition sequence, step 6: containmentTransfer check." );
                                 if( r != NULL && containmentTransfer ) {
                                     // special case contained items
                                     // moving from actor into new target
@@ -13725,7 +13725,7 @@ int main() {
                                         }
                                     
 
-                                    AppLog::infoF( "    2HOL DEBUG: transition sequence, step 7: has target shrunken? check." );
+                                      //AppLog::infoF( "    2HOL DEBUG: transition sequence, step 7: has target shrunken? check." );
                                     // has target shrunken as a container?
                                     int oldSlots = 
                                         getNumContainerSlots( target );
@@ -13781,7 +13781,7 @@ int main() {
                                     
                                     setResponsiblePlayer( - nextPlayer->id );
                                     
-                                    AppLog::infoF( "    2HOL DEBUG: transition sequence, step 8: is it going to be a floor tile?" );                                    
+                                      //AppLog::infoF( "    2HOL DEBUG: transition sequence, step 8: is it going to be a floor tile?" );                                    
                                     if( r->newTarget > 0 
                                         && getObject( r->newTarget )->floor ) {
 
@@ -13842,7 +13842,7 @@ int main() {
                                         newOwnerPos.push_back( newPos );
                                         }
                                     
-                                    AppLog::infoF( "    2HOL DEBUG: transition sequence, step 9: reached password-checking segment!" );
+                                      //AppLog::infoF( "    2HOL DEBUG: transition sequence, step 9: reached password-checking segment!" );
                                     //2HOL additions for: password-protected objects
                                     //memorize properties of the SOURCE during the transition from object that can get password
                                     //to object that can hold (and check if player knows it) the password
@@ -13869,12 +13869,19 @@ int main() {
                                          getObject( oldHolding )->canGetInGamePassword &&
                                          getObject( r->newTarget )->canHaveInGamePassword ) {                                           
 
+                                            AppLog::infoF( "    2HOL DEBUG: retrieving player's password." );
                                             char *found = nextPlayer->assignedPassword;
+                                            
+                                            if ( found == NULL ) {AppLog::infoF( "    2HOL DEBUG: password returned NULL." );}
+                                            if ( found[0] == '\0' ) {AppLog::infoF( "    2HOL DEBUG: password string is empty." );}
                                             
                                             if ( ( found != NULL ) && ( found[0] != '\0') ) {
                                                
+                                                AppLog::infoF( "    2HOL DEBUG: memorizing x coordinate of the transition." );
                                                 getObject( r->newTarget )->IndX.push_back( m.x );
+                                                AppLog::infoF( "    2HOL DEBUG: memorizing y coordinate of the transition." );
                                                 getObject( r->newTarget )->IndY.push_back( m.y );
+                                                AppLog::infoF( "    2HOL DEBUG: assigning player's password to the protected object." );
                                                 getObject( r->newTarget )->IndPass.push_back( found );
                                                 
                                                 AppLog::infoF( "2HOL DEBUG: saved password-protected position, x = %i", getObject( r->newTarget )->IndX.getElementDirect(getObject( r->newTarget )->IndX.size()-1));
