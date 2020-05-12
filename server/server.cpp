@@ -6737,6 +6737,10 @@ int processLoggedInPlayer( char inAllowReconnect,
     newObject.lastSay = NULL;
     newObject.curseStatus = inCurseStatus;
     
+    //2HOL additions for: password-protected-objects, additional fields initialization
+    newObject.saidPassword = NULL;
+    newObject.assignedPassword = NULL;
+    
 
     if( newObject.curseStatus.curseLevel == 0 &&
         hasCurseToken( inEmail ) ) {
@@ -13870,20 +13874,20 @@ int main() {
                                          getObject( r->newTarget )->canHaveInGamePassword ) {                                           
 
                                             AppLog::infoF( "    2HOL DEBUG: retrieving player's password." );
-                                            //char *found = nextPlayer->assignedPassword;
-                                            //AppLog::infoF( "    2HOL DEBUG: copied the reference." );
+                                            char *found = nextPlayer->assignedPassword;
+                                            AppLog::infoF( "    2HOL DEBUG: copied the reference." );
                                             
-                                            if ( nextPlayer->assignedPassword == NULL ) {AppLog::infoF( "    2HOL DEBUG: password returned NULL." );}
-                                            else { if ( nextPlayer->assignedPassword[0] == '\0' ) {AppLog::infoF( "    2HOL DEBUG: password string is empty." );} }
+                                            if ( found == NULL ) {AppLog::infoF( "    2HOL DEBUG: password returned NULL." );}
+                                            else { if ( found[0] == '\0' ) {AppLog::infoF( "    2HOL DEBUG: password string is empty." );} }
                                             
-                                            if ( ( nextPlayer->assignedPassword != NULL ) && ( nextPlayer->assignedPassword[0] != '\0') ) {
+                                            if ( ( found != NULL ) && ( found[0] != '\0') ) {
                                                
                                                 AppLog::infoF( "    2HOL DEBUG: memorizing x coordinate of the transition." );
                                                 getObject( r->newTarget )->IndX.push_back( m.x );
                                                 AppLog::infoF( "    2HOL DEBUG: memorizing y coordinate of the transition." );
                                                 getObject( r->newTarget )->IndY.push_back( m.y );
                                                 AppLog::infoF( "    2HOL DEBUG: assigning player's password to the protected object." );
-                                                getObject( r->newTarget )->IndPass.push_back( nextPlayer->assignedPassword );
+                                                getObject( r->newTarget )->IndPass.push_back( found );
                                                 
                                                 AppLog::infoF( "2HOL DEBUG: saved password-protected position, x = %i", getObject( r->newTarget )->IndX.getElementDirect(getObject( r->newTarget )->IndX.size()-1));
                                                 AppLog::infoF( "2HOL DEBUG: saved password-protected position, y = %i", getObject( r->newTarget )->IndY.getElementDirect(getObject( r->newTarget )->IndY.size()-1));
