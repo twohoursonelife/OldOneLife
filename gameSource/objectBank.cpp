@@ -1,3 +1,7 @@
+//2HOL: <fstream>, <iostream> added to handle restoration of in-game passwords on server restart
+#include <fstream>
+#include <iostream>
+
 #include "objectBank.h"
 
 #include "minorGems/util/StringTree.h"
@@ -21,8 +25,6 @@
 #include "soundBank.h"
 
 #include "animationBank.h"
-
-#include "minorGems/util/log/AppLog.h"
 
 
 static int mapSize;
@@ -471,7 +473,8 @@ static void setupOwned( ObjectRecord *inR ) {
     }
 
 //2HOL additions for: password-protected doors
-//coded by analogue with setupObjectWritingStatus
+//  added fields initialization coded by analogue with setupObjectWritingStatus;
+//  fetching the previously saved passwords happens here as well
 static void setupObjectPasswordStatus( ObjectRecord *inR ) {
     
     inR->canGetInGamePassword = false;
@@ -487,9 +490,48 @@ static void setupObjectPasswordStatus( ObjectRecord *inR ) {
             inR->canGetInGamePassword = true;
             }
         }
+        
+    //look through saved passwords and get ones that belong to the currently processed object kind
+    char buf[100]; char *p, *x, *y, *id;
+    std::ifstream file;
+    file.open( "2HOL passwords.txt" );
+    if ( !file.is_open() ) return;
+    //parsing 2HOL passwords.txt, the expected format is "x:%i|y:%i|word:%s|id:%i"
+    while ( file >> buf ) {
+        //std::cout << '\n' << buf;
+        p = strstr( buf, "word:" );
+        x = strstr( buf, "x:" );
+        y = strstr( buf, "y:" );
+        id = strstr( buf, "id:" );
+        if( p && x && y && id ) {
+            id = id+3;
+            if ( atoi( id ) == inR->id ) {
+                std::cout << "\nRestoring secret word for object with ID:" << id;
+
+                *(id-4) = '\0';
+                p = p+5;
+                inR->IndPass.push_back( p );
+                std::cout << ", secret word: " << p;
+
+                *(p-6) = '\0';
+                y = y+2;
+                inR->IndY.push_back( atoi( y ) );
+                std::cout << "; coordinates: y:" << y;
+
+                *(y-3) = '\0';
+                x = x+2;
+                inR->IndX.push_back( atoi( x ) );
+                std::cout << "; x:" << x << ".\n";
+                }
+            }
+        }
+    file.close();
+    
     }
 
-
+//IndX.push_back( m.x );
+//IndY.push_back( m.y );
+//IndPass.push_back( found );
 
 static void setupNoHighlight( ObjectRecord *inR ) {
     inR->noHighlight = false;
