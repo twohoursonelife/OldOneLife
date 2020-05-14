@@ -7,6 +7,12 @@
 #include <random>
 #include <string>
 
+//2HOL: <fstream>, <iostream> added to handle runtime storage of in-game passwords
+#include <fstream>
+#include <iostream>
+//  <time.h> added to add time stamps to recorded data
+#include <time.h>
+
 
 #include "minorGems/util/stringUtils.h"
 #include "minorGems/util/SettingsManager.h"
@@ -13336,8 +13342,7 @@ int main() {
                             }
                         }
                     else if( m.type == USE ) {
-                        
-                          //AppLog::infoF( "    2HOL DEBUG: action of USE type started to be processed." );
+
                         
                         // send update even if action fails (to let them
                         // know that action is over)
@@ -13354,7 +13359,7 @@ int main() {
                         // change below
                         int heldGravePlayerID = nextPlayer->heldGravePlayerID;
                         
-                          //AppLog::infoF( "    2HOL DEBUG: checking if the interaction distance is appropriate." );
+
                         char distanceUseAllowed = false;
                         
                         if( nextPlayer->holdingID > 0 ) {
@@ -13405,12 +13410,12 @@ int main() {
                             // can only use on targets next to us for now,
                             // no diags
                             
-                              //AppLog::infoF( "    2HOL DEBUG: determining the target of interaction." );
+
                             int target = getMapObject( m.x, m.y );
                             
                             int oldHolding = nextPlayer->holdingID;
                             
-                              //AppLog::infoF( "    2HOL DEBUG: checking if the side, the ownership and the possible password are appropriate." );
+
                             char wrongSide = false;
                             char ownershipBlocked = false;
                             //2HOL additions for: password-protected objects
@@ -13480,7 +13485,7 @@ int main() {
                                 }
                             else if( target != 0 ) {
                                 
-                                  //AppLog::infoF( "    2HOL DEBUG: it seems there are no reasons to block the current transition." );
+
 
                                 ObjectRecord *targetObj = getObject( target );
                                 
@@ -13489,7 +13494,7 @@ int main() {
                                 TransRecord *r = NULL;
                                 char defaultTrans = false;
                                 
-                                  //AppLog::infoF( "    2HOL DEBUG: transition sequence, step 1: nextPlayer->numContained check." );
+
                                 char heldCanBeUsed = false;
                                 char containmentTransfer = false;
                                 if( // if what we're holding contains
@@ -13540,7 +13545,7 @@ int main() {
                                     }
                                 
                                 
-                                  //AppLog::infoF( "    2HOL DEBUG: transition sequence, step 2: heldCanBeUsed check." );
+
                                 if( nextPlayer->holdingID >= 0 &&
                                     heldCanBeUsed ) {
                                     // negative holding is ID of baby
@@ -13550,7 +13555,7 @@ int main() {
                                                   target );
                                     }
 
-                                  //AppLog::infoF( "    2HOL DEBUG: transition sequence, step 3: getPTrans resulted in NULL? check." );                                    
+                                  
                                 if( r == NULL && 
                                     ( nextPlayer->holdingID != 0 || 
                                       targetObj->permanent ) &&
@@ -13598,7 +13603,7 @@ int main() {
                                     }
                                 
 
-                                  //AppLog::infoF( "    2HOL DEBUG: transition sequence, step 4: is target going to change?" );
+
                                 if( r != NULL &&
                                     r->newTarget > 0 &&
                                     r->newTarget != target ) {
@@ -13655,7 +13660,7 @@ int main() {
                                     }
 
 
-                                  //AppLog::infoF( "    2HOL DEBUG: transition sequence, step 6: containmentTransfer check." );
+
                                 if( r != NULL && containmentTransfer ) {
                                     // special case contained items
                                     // moving from actor into new target
@@ -13729,7 +13734,7 @@ int main() {
                                         }
                                     
 
-                                      //AppLog::infoF( "    2HOL DEBUG: transition sequence, step 7: has target shrunken? check." );
+
                                     // has target shrunken as a container?
                                     int oldSlots = 
                                         getNumContainerSlots( target );
@@ -13785,7 +13790,7 @@ int main() {
                                     
                                     setResponsiblePlayer( - nextPlayer->id );
                                     
-                                      //AppLog::infoF( "    2HOL DEBUG: transition sequence, step 8: is it going to be a floor tile?" );                                    
+                                   
                                     if( r->newTarget > 0 
                                         && getObject( r->newTarget )->floor ) {
 
@@ -13845,49 +13850,45 @@ int main() {
                                             ownedPositions.push_back( newPos );
                                         newOwnerPos.push_back( newPos );
                                         }
-                                    
-                                      //AppLog::infoF( "    2HOL DEBUG: transition sequence, step 9: reached password-checking segment!" );
+
                                     //2HOL additions for: password-protected objects
-                                    //memorize properties of the SOURCE during the transition from object that can get password
-                                    //to object that can hold (and check if player knows it) the password
-                                    AppLog::infoF( "    2HOL DEBUG: deciding now: should I assign a password to the result of this transition?" );
-                                    AppLog::infoF( "    2HOL DEBUG: deciding 1/4: player is holding something?" );
-                                    if ( oldHolding > 0 ) {
-                                        AppLog::infoF( "        YES" );
-                                        AppLog::infoF( "    2HOL DEBUG: deciding 2/4: will be there a thing as a result of this transition?" );
-                                        if ( r->newTarget > 0 ) {
-                                            AppLog::infoF( "        YES" );
-                                            AppLog::infoF( "    2HOL DEBUG: deciding 3/4: is the thing that player is holding password-assignable?" );
-                                            if ( getObject( oldHolding )->canGetInGamePassword ) {
-                                                AppLog::infoF( "        YES" );
-                                                AppLog::infoF( "    2HOL DEBUG: deciding 4/4: is the thing that will be produced capable of holding the password?" );
-                                                if ( getObject( r->newTarget )->canHaveInGamePassword ) { AppLog::infoF( "        YES - TIME TO APPLY SOME PASSWORDS!" ); }
-                                                else { AppLog::infoF( "        NO - no password for you today." ); }
-                                                }
-                                            else { AppLog::infoF( "        NO - no password for you today." ); }
-                                            }
-                                        else { AppLog::infoF( "        NO - no password for you today." ); }
-                                        }
-                                    else { AppLog::infoF( "        NO - no password for you today." ); }
-                                    if ( ( oldHolding > 0) && ( r->newTarget > 0 ) && //( getObject( oldHolding )->passID > 0 ) &&
+                                    //  the initial transition from +password-assignable to +password-protected object
+                                    //  "the moment when password attachment to the object (speaking strictly, to the tile where the structure is constructed) happens"
+                                    if ( ( oldHolding > 0) && ( r->newTarget > 0 ) &&
                                          getObject( oldHolding )->canGetInGamePassword &&
                                          getObject( r->newTarget )->canHaveInGamePassword ) {                                           
 
-                                            AppLog::infoF( "    2HOL DEBUG: retrieving player's password." );
+                                            AppLog::infoF( "2HOL DEBUG: retrieving player's password." );
                                             char *found = nextPlayer->assignedPassword;
-                                            AppLog::infoF( "    2HOL DEBUG: copied the reference." );
                                             
                                             if ( found == NULL ) {AppLog::infoF( "    2HOL DEBUG: password returned NULL." );}
                                             else { if ( found[0] == '\0' ) {AppLog::infoF( "    2HOL DEBUG: password string is empty." );} }
                                             
                                             if ( ( found != NULL ) && ( found[0] != '\0') ) {
                                                
-                                                AppLog::infoF( "    2HOL DEBUG: memorizing x coordinate of the transition." );
                                                 getObject( r->newTarget )->IndX.push_back( m.x );
-                                                AppLog::infoF( "    2HOL DEBUG: memorizing y coordinate of the transition." );
                                                 getObject( r->newTarget )->IndY.push_back( m.y );
-                                                AppLog::infoF( "    2HOL DEBUG: assigning player's password to the protected object." );
                                                 getObject( r->newTarget )->IndPass.push_back( found );
+                                                
+                                                //adding the coordinates, password and ID to "2HOL passwords.txt" list as soon as it was created,
+                                                //  as well as the date and time of interaction;
+                                                //  After server halt/crash and restart, passwords restoration happens while initalizing objects, in
+                                                //    ..\gameSource\objectBank.cpp : static void setupObjectPasswordStatus( ObjectRecord *inR )
+                                                
+                                                    //determining ID
+                                                    //  no need to check if it's one of stages of multi-stage object, since the password is assigned
+                                                    //  always as a result of structure-making transition, and that is going to be the object at initial stage in any case
+                                                    int tmp;
+                                                    //if ( getObject( r->newTarget )->isUseDummy ) { tmp = getObject( r->newTarget )->useDummyParent; }
+                                                    //else { tmp = getObject( r->newTarget )->id; }
+                                                    tmp = getObject( r->newTarget )->id;
+                                                
+                                                time_t _tm = time(NULL );
+                                                struct tm * curtime = localtime ( &_tm );
+                                                std::fstream file;
+                                                file.open("2HOL passwords.txt",std::ios::app);
+                                                file << '\n' << asctime(curtime) << "        id:" << tmp << "|x:" << m.x << "|y:" << m.y << "|word:" << found;
+                                                file.close();
                                                 
                                                 AppLog::infoF( "2HOL DEBUG: saved password-protected position, x = %i", getObject( r->newTarget )->IndX.getElementDirect(getObject( r->newTarget )->IndX.size()-1));
                                                 AppLog::infoF( "2HOL DEBUG: saved password-protected position, y = %i", getObject( r->newTarget )->IndY.getElementDirect(getObject( r->newTarget )->IndY.size()-1));
